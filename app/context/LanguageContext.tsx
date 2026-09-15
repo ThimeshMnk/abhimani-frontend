@@ -11,7 +11,7 @@ import React, {
 
 const RAW_API_BASE =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
-  "http://localhost:8000"; 
+  "https://web-production-3c6bc.up.railway.app/"; 
 const API_BASE = RAW_API_BASE.replace(/\/+$/, "");
 
 export type TrilingualTranslations = Record<string, string>;
