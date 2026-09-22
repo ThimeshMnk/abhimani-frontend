@@ -15,7 +15,13 @@ const fadeInUp: Variants = {
   },
 };
 
-export default function HomeContent() {
+interface HomeContentProps {
+  customTitle?: string;
+}
+
+
+export default function HomeContent({ customTitle }: HomeContentProps = {}) {
+
   const { getAsset, isPreview, t } = useLanguage();
 
   return (
@@ -42,17 +48,23 @@ export default function HomeContent() {
 
           <div className="relative max-w-7xl mx-auto px-6 lg:px-12 w-full z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
             <div className="max-w-xl">
-              <motion.h1
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="font-serif text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] leading-[1.08] font-bold text-[#141414] tracking-tight mb-5"
-              >
-                Standing with <br />
-                sex workers, <br />
-                <span className="text-[#58214D]">every step of</span> <br />
-                <span className="text-[#58214D]">the way.</span>
-              </motion.h1>
+             <motion.h1
+  initial={{ opacity: 0, y: 15 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+  className="font-serif text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] leading-[1.08] font-bold text-[#141414] tracking-tight mb-5"
+>
+  {customTitle ? (
+    customTitle
+  ) : (
+    <>
+      Standing with <br />
+      sex workers, <br />
+      <span className="text-[#58214D]">every step of</span> <br />
+      <span className="text-[#58214D]">the way.</span>
+    </>
+  )}
+</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 12 }}
