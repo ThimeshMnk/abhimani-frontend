@@ -32,13 +32,14 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
         <section className="relative w-full flex-1 flex items-center bg-[#FAF8F5] py-8 lg:py-0 overflow-hidden">
           <div className="absolute inset-0 w-full h-full overflow-hidden">
             <Image
-              src="/images/hero.jpeg" //
+              src={getAsset("hero_bg_image", "/images/Hero.jpeg")}
               alt="Standing with sex workers"
               fill
               priority
               className="object-cover object-[75%_25%] lg:object-[82%_25%]"
+              unoptimized={isPreview}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 via-40% md:via-50% to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/10 via-40% md:via-50% to-transparent" />
           </div>
 
           <div className="relative max-w-7xl mx-auto px-6 lg:px-12 w-full z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
