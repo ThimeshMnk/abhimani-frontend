@@ -34,49 +34,63 @@ interface EventItem {
 const defaultEvents: EventItem[] = [
   {
     id: 1,
-    cat: { en: "Community Dialogue" },
+    cat: { en: "Advocacy & Policy" },
     date: "OCT 14, 2026",
-    location: { en: "Colombo, Sri Lanka" },
-    title: { en: "Voices of Hope: National Transgender Symposium" },
-    excerpt: { en: "Over 120 grassroots organizers gathered in Colombo to discuss affirmative healthcare access and constitutional protection." },
-    fullStory: { en: "The National Transgender Symposium united transgender activists, medical professionals, and human rights lawyers from across Sri Lanka. Key discussion tracks included safe shelter networks, addressing workplace harassment, and drafting legal reform recommendations to eliminate discriminatory laws." },
-    img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644",
+    location: { en: "Colombo Public Library Hall" },
+    title: { en: "Sisterhood in Action: National Decriminalisation Consultation" },
+    excerpt: { en: "Over 180 female and transgender sex worker leaders gathered in Colombo to present law-reform papers demanding the repeal of colonial vagrancy statutes." },
+    fullStory: { en: "Organized by Abhimani Women's Collective, this landmark national consultation united community organizers, constitutional attorneys, and public health delegates. Key tracks examined the systemic misuse of the 1841 Vagrants Ordinance, documentation of custodial violence, and actionable submissions presented directly to legal reform commissions." },
+    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4",
-      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac"
+      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
     id: 2,
-    cat: { en: "Youth & Empowerment" },
+    cat: { en: "Economic Liberation" },
     date: "SEP 28, 2026",
-    location: { en: "Kandy Safe House" },
-    title: { en: "Peer Circles: Creative Expression & Mental Health" },
-    excerpt: { en: "A safe weekend retreat focusing on art therapy, trauma healing, and peer mentorship for trans youth." },
-    fullStory: { en: "Led by certified counseling liaisons, this workshop provided a non-judgmental sanctuary for gender-diverse youth. Participants engaged in art therapy, storytelling circles, and psycho-social coping strategies, culminating in a collective community mural." },
-    img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac",
+    location: { en: "Kandy Cultural Centre" },
+    title: { en: "Hands of Resilience: Survivor Artisan Craft Showcase" },
+    excerpt: { en: "Displaying handcrafted textiles, upcycled accessories, and lifestyle goods created by community members to fund emergency mutual-aid bail tins." },
+    fullStory: { en: "As part of AWC's social enterprise initiative, this artisan exhibition showcased the creative entrepreneurship of community members. 100% of proceeds generated from sales were reinvested directly into regional emergency bail and nutritional support funds across provincial districts." },
+    img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1000&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1511632765486-a01980e01a18",
-      "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8"
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
     id: 3,
-    cat: { en: "Advocacy & Law" },
+    cat: { en: "Legal Defense" },
     date: "AUG 19, 2026",
-    location: { en: "Galle Heritage Hall" },
-    title: { en: "Legal Rights & Anti-Discrimination Training" },
-    excerpt: { en: "Training community paralegals to navigate police arbitrary detentions and legal gender recognition paperwork." },
-    fullStory: { en: "This legal education summit equipped community members with critical knowledge regarding fundamental rights under the Constitution of Sri Lanka, safe reporting protocols, and legal identity card (NIC) gender change procedures." },
-    img: "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8",
+    location: { en: "Galle Community House" },
+    title: { en: "Frontline Defense: Community Paralegal Certification" },
+    excerpt: { en: "Training 35 peer focal points with rapid-response legal accompaniment protocols, station bail procedures, and human rights documentation." },
+    fullStory: { en: "Conducted alongside human rights attorneys, this intensive workshop certified regional leaders to act as immediate first responders during police roundups. Participants learned constitutional rights under Articles 11 and 13, emergency legal intervention tactics, and secure evidence preservation." },
+    img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1000&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1450133064473-71024230f91b",
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2"
+      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    id: 4,
+    cat: { en: "Healthcare & Care" },
+    date: "JUL 10, 2026",
+    location: { en: "Negombo Outreach Hub" },
+    title: { en: "Health With Dignity: Stigma-Free Mobile Screening Clinic" },
+    excerpt: { en: "Delivering voluntary confidential health checkups, PrEP/PEP counseling, STI screening, and mental health decompression circles." },
+    fullStory: { en: "In collaboration with sensitized medical practitioners, AWC hosted a confidential wellness clinic. Peer navigators facilitated stigma-free consultations, safe testing, and psycho-social trauma healing spaces for over 90 community members." },
+    img: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=1000&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80"
     ]
   }
 ];
 
-// Event Detail Modal
+// Event Detail Modal Component
 function EventDetailModal({
   event,
   onClose,
@@ -86,7 +100,8 @@ function EventDetailModal({
   onClose: () => void;
   resolveText: (val: Record<string, string> | string | undefined, fallback?: string) => string;
 }) {
-  const { getAssetUrl } = useLanguage();
+  const { getAsset, getAssetUrl } = useLanguage();
+  const resolveAsset = getAsset || getAssetUrl;
   const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
@@ -103,18 +118,24 @@ function EventDetailModal({
   const location = resolveText(event.location, "Sri Lanka");
   const excerpt = resolveText(event.excerpt, "");
   const fullStory = resolveText(event.fullStory || event.full_story, excerpt);
-  const mainImg = getAssetUrl(event.img || event.cover_image, "https://images.unsplash.com/photo-1523240795612-9a054b0db644");
+  const mainImg = resolveAsset(
+    event.img || event.cover_image,
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80"
+  );
 
   const rawGallery = event.gallery || event.gallery_images || [];
-  const galleryPhotos = rawGallery.map((g) => getAssetUrl(g)).filter(Boolean);
+  const galleryPhotos = rawGallery.map((g) => resolveAsset(g)).filter(Boolean);
 
   const handleShare = (platform: "facebook" | "whatsapp" | "copy") => {
     const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/gallery?event=${event.id}` : "";
-    const shareText = `${title} - Trans Equality Trust Sri Lanka`;
+    const shareText = `${title} • Abhimani Women's Collective Sri Lanka`;
 
     if (platform === "facebook") {
-      // Opens official Facebook page
-      window.open("https://www.facebook.com/share/12G6Xq5jZ15/", "_blank", "width=600,height=500");
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+        "_blank",
+        "width=600,height=500"
+      );
     } else if (platform === "whatsapp") {
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + shareUrl)}`, "_blank");
     } else if (platform === "copy") {
@@ -127,25 +148,27 @@ function EventDetailModal({
   return (
     <div 
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-sky-950/60 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/70 backdrop-blur-md overflow-y-auto"
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.94, y: 20 }}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.94, y: 20 }}
-        transition={{ duration: 0.3 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.25 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-3xl bg-white rounded-3xl md:rounded-[2.5rem] shadow-2xl border border-sky-200 overflow-hidden my-auto"
+        className="relative w-full max-w-3xl bg-white rounded-3xl md:rounded-[2.5rem] shadow-2xl overflow-hidden my-auto"
       >
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 z-20 w-10 h-10 rounded-full bg-white/90 hover:bg-pink-500 hover:text-white text-sky-900 border border-sky-200 flex items-center justify-center transition-all shadow-md font-bold text-sm cursor-pointer"
+          className="absolute top-5 right-5 z-20 w-10 h-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all shadow-md font-bold text-sm cursor-pointer backdrop-blur-sm"
           aria-label="Close Event Modal"
         >
           ✕
         </button>
 
-        <div className="relative h-64 md:h-80 w-full overflow-hidden bg-sky-100">
+        {/* Cover Photo */}
+        <div className="relative h-64 md:h-80 w-full overflow-hidden bg-gray-900">
           <Image
             src={mainImg}
             fill
@@ -153,10 +176,10 @@ function EventDetailModal({
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 80vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-sky-950/80 via-sky-950/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
           <div className="absolute bottom-6 left-6 right-6 text-white">
-            <span className="text-[10px] font-bold uppercase tracking-widest bg-pink-500 text-white px-3 py-1 rounded-full shadow-sm inline-block mb-2">
+            <span className="text-[10px] font-bold uppercase tracking-widest bg-[#E84E2D] text-white px-3 py-1 rounded-full shadow-sm inline-block mb-2">
               {category}
             </span>
             <h2 className="font-serif text-2xl md:text-3xl font-bold leading-tight">
@@ -165,37 +188,36 @@ function EventDetailModal({
           </div>
         </div>
 
+        {/* Modal Body */}
         <div className="p-6 md:p-8 space-y-6 max-h-[55vh] overflow-y-auto">
-          <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-sky-50/70 border border-sky-100 text-xs">
-  
-            <div className="flex items-center gap-2 text-[#2A8ACD] font-bold">
+          <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-[#FAF8F5] border border-orange-100 text-xs">
+            <div className="flex items-center gap-2 text-[#58214D] font-bold">
               <span>📅</span>
               <span>{date}</span>
             </div>
-     
-            <div className="flex items-center gap-2 text-[#2A8ACD] font-bold">
+            <div className="flex items-center gap-2 text-[#58214D] font-bold">
               <span>📍</span>
               <span>{location}</span>
             </div>
-            <div className="text-[10px] font-bold uppercase tracking-widest text-pink-700 bg-pink-100 px-3 py-1 rounded-full">
-              Official TET Archive
+            <div className="text-[10px] font-bold uppercase tracking-widest text-[#E84E2D] bg-orange-100/70 px-3 py-1 rounded-full">
+              AWC Archive
             </div>
           </div>
 
-          <div className="space-y-3 text-slate-600 text-sm leading-relaxed whitespace-pre-line">
-            {excerpt && <p className="font-medium text-slate-800">{excerpt}</p>}
+          <div className="space-y-3 text-gray-700 text-sm leading-relaxed whitespace-pre-line">
+            {excerpt && <p className="font-semibold text-gray-900">{excerpt}</p>}
             <p>{fullStory}</p>
           </div>
 
+          {/* Photo Gallery Grid */}
           {galleryPhotos.length > 0 && (
             <div className="pt-2">
-            
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#2A8ACD] block mb-3">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#58214D] block mb-3">
                 Event Photo Gallery
               </span>
               <div className="grid grid-cols-2 gap-4">
                 {galleryPhotos.map((gImg, gIdx) => (
-                  <div key={gIdx} className="relative h-32 md:h-44 rounded-2xl overflow-hidden border border-sky-100">
+                  <div key={gIdx} className="relative h-36 md:h-48 rounded-2xl overflow-hidden border border-gray-100">
                     <Image src={gImg} fill alt="Event Gallery" className="object-cover" sizes="(max-width: 768px) 50vw, 25vw" />
                   </div>
                 ))}
@@ -203,32 +225,32 @@ function EventDetailModal({
             </div>
           )}
 
-          <div className="pt-6 border-t border-sky-100 flex flex-wrap items-center gap-3">
-    
-            <span className="text-xs font-black uppercase tracking-wider text-[#2A8ACD] mr-auto">
+          {/* Social Share Bar */}
+          <div className="pt-6 border-t border-gray-100 flex flex-wrap items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#58214D] mr-auto">
               Share Event:
             </span>
 
             <button
               onClick={() => handleShare("facebook")}
-              className="px-4 py-2 rounded-xl bg-[#1877f2] hover:bg-[#166fe5] text-white text-xs font-bold transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-[#1877f2] hover:bg-[#166fe5] text-white text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
             >
-              <span>Facebook</span>
+              Facebook
             </button>
 
             <button
               onClick={() => handleShare("whatsapp")}
-              className="px-4 py-2 rounded-xl bg-[#25d366] hover:bg-[#20bd5a] text-white text-xs font-bold transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-[#25d366] hover:bg-[#20bd5a] text-white text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
             >
-              <span>WhatsApp</span>
+              WhatsApp
             </button>
 
             <button
               onClick={() => handleShare("copy")}
-              className="px-4 py-2 rounded-xl bg-sky-100 hover:bg-sky-200 text-sky-900 text-xs font-bold transition-all border border-sky-200 flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold transition-all border border-gray-200 flex items-center gap-1.5 cursor-pointer"
             >
               {copiedLink ? (
-                <span className="text-emerald-700 font-black">Link Copied! ✓</span>
+                <span className="text-[#E84E2D] font-bold">Link Copied! ✓</span>
               ) : (
                 <span>🔗 Copy Link</span>
               )}
@@ -242,7 +264,8 @@ function EventDetailModal({
 
 // Main Gallery Page
 export default function GalleryPage() {
-  const { t, getAssetUrl, locale } = useLanguage();
+  const { t, getAsset, getAssetUrl, locale } = useLanguage();
+  const resolveAsset = getAsset || getAssetUrl;
   const [eventsList, setEventsList] = useState<EventItem[]>(defaultEvents);
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
 
@@ -259,21 +282,20 @@ export default function GalleryPage() {
           }
         }
       } catch (err) {
-        console.warn("Using offline event defaults:", err);
+        console.warn("Using offline AWC event defaults:", err);
       }
     };
 
     loadEvents();
-
     return () => {
       isMounted = false;
     };
   }, []);
 
-  // 2. Listen for Livewire Admin Messages & Auto-Reload
+  // Listen for admin messages / deep-linking
   useEffect(() => {
     const handleMessage = async (event: MessageEvent) => {
-      if (event.data?.type === "TET_RELOAD_COLLECTION") {
+      if (event.data?.type === "AWC_RELOAD_COLLECTION" || event.data?.type === "TET_RELOAD_COLLECTION") {
         try {
           const res = await fetch(`${API_BASE}/api/events`);
           if (res.ok) {
@@ -285,16 +307,16 @@ export default function GalleryPage() {
         }
       }
 
-      if (event.data?.type === "TET_OPEN_MODAL") {
+      if (event.data?.type === "AWC_OPEN_MODAL" || event.data?.type === "TET_OPEN_MODAL") {
         const ev = eventsList.find((e) => e.id === Number(event.data.id));
         if (ev) setSelectedEvent(ev);
       }
 
-      if (event.data?.type === "TET_CLOSE_MODAL") {
+      if (event.data?.type === "AWC_CLOSE_MODAL" || event.data?.type === "TET_CLOSE_MODAL") {
         setSelectedEvent(null);
       }
 
-      if (event.data?.type === "TET_SCROLL_TO_SECTION") {
+      if (event.data?.type === "AWC_SCROLL_TO_SECTION" || event.data?.type === "TET_SCROLL_TO_SECTION") {
         const { sectionId, eventId } = event.data;
         const targetId = eventId ? `event-card-${eventId}` : sectionId;
         const target = document.getElementById(targetId);
@@ -316,33 +338,37 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="w-full bg-[#f8fbff] text-slate-800 selection:bg-pink-100 selection:text-sky-900 min-h-screen overflow-x-hidden scroll-smooth">
+    <div className="w-full bg-[#FAF8F5] text-slate-800 selection:bg-[#FBE8E3] selection:text-[#E84E2D] min-h-screen overflow-x-hidden scroll-smooth">
       
       {/* 1. HEADER SECTION */}
-      <section id="gallery-hero" className="scroll-mt-28 py-20 md:py-28 px-6">
+      <section id="gallery-hero" className="scroll-mt-28 py-16 md:py-24 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-       
-            <span className="text-[#2A8ACD] font-bold tracking-[0.3em] text-[11px] uppercase mb-4 px-4 py-1.5 bg-sky-50 rounded-full border border-[var(--tet-pink)]/40 inline-flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
-              {t("gl_events_tag", "COMMUNITY HAPPENINGS • EVENTS & ARCHIVES")}
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
+            <span className="text-[#E84E2D] font-bold tracking-[0.3em] text-[11px] uppercase mb-4 px-4 py-1.5 bg-orange-100/80 rounded-full inline-flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#E84E2D] animate-pulse"></span>
+              {t("gl_events_tag", "COMMUNITY ARCHIVE • GATHERINGS & MILESTONES")}
             </span>
 
-      
-            <h1 className="font-serif text-4xl md:text-6xl font-bold text-[#2A8ACD] mb-4 tracking-tight">
-              {t("gl_gallery_title", "Visual Storytelling")} <br />
-              <span className="text-pride-gradient italic font-normal font-playfair">
-                &amp; Community Events
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-4 tracking-tight leading-[1.12]">
+              {t("gl_gallery_title", "Moments of Resistance")} <br />
+              <span className="text-[#58214D] italic font-normal">
+                &amp; Collective Care
               </span>
             </h1>
 
-            <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+            <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
               {t(
                 "gl_gallery_desc",
-                "Explore our ongoing gatherings, workshops, and milestones. Click on any event card to read full details and share it to your social media."
+                "Explore our ongoing community gatherings, rights workshops, legal advocacy summits, and artisan collectives across Sri Lanka."
               )}
             </p>
-          </div>
+          </motion.div>
 
           {/* 2. DYNAMIC EVENTS GRID */}
           <div id="gallery-events" className="scroll-mt-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
@@ -352,7 +378,10 @@ export default function GalleryPage() {
               const location = resolveText(event.location, "Sri Lanka");
               const excerpt = resolveText(event.excerpt);
               const date = event.date || "Upcoming";
-              const imgSrc = getAssetUrl(event.img || event.cover_image, "https://images.unsplash.com/photo-1523240795612-9a054b0db644");
+              const imgSrc = resolveAsset(
+                event.img || event.cover_image,
+                "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
+              );
 
               return (
                 <motion.div
@@ -364,10 +393,10 @@ export default function GalleryPage() {
                   transition={{ delay: i * 0.06, duration: 0.6 }}
                   whileHover={{ y: -6 }}
                   onClick={() => setSelectedEvent(event)}
-                  className="scroll-mt-32 group bg-white rounded-3xl md:rounded-[2.5rem] overflow-hidden border border-sky-200/80 shadow-sm hover:shadow-xl hover:border-[#2A8ACD] transition-all flex flex-col justify-between cursor-pointer"
+                  className="scroll-mt-32 group bg-white rounded-3xl md:rounded-[2.5rem] overflow-hidden border border-gray-200/80 shadow-xs hover:shadow-xl hover:border-[#58214D]/40 transition-all flex flex-col justify-between cursor-pointer"
                 >
                   <div>
-                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-sky-50">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
                       <Image
                         src={imgSrc}
                         fill
@@ -375,40 +404,39 @@ export default function GalleryPage() {
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-sky-950/60 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
 
                       <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-                     
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#2A8ACD] bg-white/95 backdrop-blur-md px-3 py-1 rounded-full shadow-sm border border-sky-200">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#58214D] bg-white/95 backdrop-blur-md px-3 py-1 rounded-full shadow-xs">
                           {category}
                         </span>
-                        <span className="text-[10px] font-black text-pink-700 bg-pink-50/95 backdrop-blur-md px-3 py-1 rounded-full border border-pink-200">
+                        <span className="text-[10px] font-bold text-white bg-[#E84E2D] px-3 py-1 rounded-full shadow-xs">
                           {date}
                         </span>
                       </div>
 
-                      <div className="absolute bottom-3 left-4 text-white text-xs font-semibold flex items-center gap-1.5 opacity-90">
+                      <div className="absolute bottom-3 left-4 text-white text-xs font-medium flex items-center gap-1.5 opacity-90">
                         <span>📍</span>
                         <span className="truncate">{location}</span>
                       </div>
                     </div>
 
                     <div className="p-6 md:p-7">
-                      <h3 className="font-serif text-xl font-bold text-[#2A8ACD] mb-2.5 leading-snug group-hover:text-[#2374b0] transition-colors">
+                      <h3 className="font-serif text-xl font-bold text-[#141414] mb-2.5 leading-snug group-hover:text-[#58214D] transition-colors">
                         {title}
                       </h3>
-                      <p className="text-slate-600 text-xs leading-relaxed line-clamp-3">
+                      <p className="text-gray-600 text-xs leading-relaxed line-clamp-3">
                         {excerpt}
                       </p>
                     </div>
                   </div>
 
-                  <div className="px-6 pb-6 pt-2 flex items-center justify-between border-t border-sky-50 text-[11px] font-bold">
-                    
-                    <span className="text-[#2A8ACD] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-                      Read Details &amp; Share →
+                  <div className="px-6 pb-6 pt-3 flex items-center justify-between border-t border-gray-100 text-[11px] font-bold">
+                    <span className="text-[#58214D] group-hover:text-[#E84E2D] group-hover:translate-x-1 transition-all inline-flex items-center gap-1">
+                      <span>Read Details &amp; Gallery</span>
+                      <span>→</span>
                     </span>
-                    <span className="text-slate-400">TET Archive</span>
+                    <span className="text-gray-400">AWC Archive</span>
                   </div>
                 </motion.div>
               );

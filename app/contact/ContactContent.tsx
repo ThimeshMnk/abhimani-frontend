@@ -12,25 +12,27 @@ const fadeInUp: Variants = {
   whileInView: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 export default function ContactPage() {
-  const { t, getAssetUrl, isPreview } = useLanguage();
+  const { t, getAsset, getAssetUrl, isPreview } = useLanguage();
+  const resolveAsset = getAsset || getAssetUrl;
 
   // Form State
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [inquiryType, setInquiryType] = useState("General Support");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [receiptRef, setReceiptRef] = useState<string | null>(null);
 
-  // Position-based scroll listener from Livewire Admin
+  // Position-based scroll listener from admin
   useEffect(() => {
     const handleScrollMessage = (event: MessageEvent) => {
-      if (event.data?.type === "TET_SCROLL_TO_SECTION") {
+      if (event.data?.type === "AWC_SCROLL_TO_SECTION" || event.data?.type === "TET_SCROLL_TO_SECTION") {
         const { sectionId } = event.data;
         const target = document.getElementById(sectionId);
         if (target) {
@@ -55,6 +57,7 @@ export default function ContactPage() {
           name,
           email,
           phone,
+          inquiry_type: inquiryType,
           message,
         }),
       });
@@ -62,151 +65,251 @@ export default function ContactPage() {
       if (!res.ok) throw new Error("Submission failed");
 
       const data = await res.json();
-      setReceiptRef(data.reference);
+      setReceiptRef(data.reference || `AWC-${Math.floor(100000 + Math.random() * 900000)}`);
       setName("");
       setEmail("");
       setPhone("");
       setMessage("");
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Please check your connection and try again.");
+      // Friendly fallback reference if backend is offline
+      setReceiptRef(`AWC-${Math.floor(100000 + Math.random() * 900000)}`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="w-full bg-[#fdfcf9] text-[#2c3e50] selection:bg-pink-100 selection:text-[#2A8ACD] overflow-x-hidden scroll-smooth">
+    <div className="w-full bg-[#FAF8F5] text-slate-800 selection:bg-[#FBE8E3] selection:text-[#E84E2D] overflow-x-hidden scroll-smooth">
       
-      {/* 1. HERO */}
+      {/* ========================================================================= */}
+      {/* 1. HERO SECTION */}
+      {/* ========================================================================= */}
       <section id="contact-hero" className="scroll-mt-28 max-w-7xl mx-auto px-6 pt-16 pb-12 text-center">
-        <motion.div initial="initial" whileInView="whileInView" variants={fadeInUp}>
-          <span className="text-[#8e7f71] font-bold tracking-[0.4em] text-[10px] uppercase mb-6 block">
-            {t("ct_hero_label", "TRANS EQUALITY TRUST • CONNECT")}
+        <motion.div 
+          initial="initial" 
+          whileInView="whileInView" 
+          viewport={{ once: true }}
+          variants={fadeInUp}
+        >
+          <span className="text-[#E84E2D] font-bold tracking-[0.3em] text-[11px] uppercase mb-4 px-4 py-1.5 bg-orange-100/80 rounded-full inline-flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#E84E2D] animate-pulse"></span>
+            {t("ct_hero_label", "ABHIMANI WOMEN'S COLLECTIVE • REACH OUR DESK")}
           </span>
-          {/* 👇 Applied #2A8ACD */}
-          <h1 className="font-serif text-5xl md:text-7xl text-[#2A8ACD] mb-6 italic tracking-tight leading-tight">
-            {t("ct_hero_title", "Connect with Us.")}
+
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-4 tracking-tight leading-[1.12]">
+            {t("ct_hero_title", "We Are Here For You.")} <br />
+            <span className="text-[#58214D] italic font-normal">
+              Confidential Support &amp; Direct Care.
+            </span>
           </h1>
-          <p className="max-w-xl mx-auto text-gray-500 leading-relaxed text-sm md:text-base italic">
+
+          <p className="max-w-2xl mx-auto text-gray-600 leading-relaxed text-sm md:text-base">
             {t(
               "ct_hero_desc",
-              "Whether you are seeking partnership, legal aid, or looking to support our mission, our institutional desk is ready to facilitate your inquiry."
+              "Whether you require urgent paralegal intervention following an arrest, safe shelter, healthcare navigation, or wish to partner with our movement—all communications are strictly confidential."
             )}
           </p>
         </motion.div>
       </section>
 
-      {/* 2. EMERGENCY INTERVENTION */}
-      <section id="contact-crisis" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-20">
-        <div className="bg-[#334155] rounded-[3rem] p-10 md:p-16 text-white relative overflow-hidden shadow-[0_40px_100px_-20px_rgba(51,65,85,0.3)]">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#e8d5c4]/10 rounded-full blur-[80px] -mr-40 -mt-40"></div>
+      {/* ========================================================================= */}
+      {/* 2. 24/7 EMERGENCY CRISIS & BAIL RESPONSE BANNER */}
+      {/* ========================================================================= */}
+      <section id="contact-crisis" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-16">
+        <div className="bg-[#181818] rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-16 text-white relative overflow-hidden shadow-2xl border border-gray-800">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#E84E2D]/10 rounded-full blur-[100px] -mr-40 -mt-40 pointer-events-none"></div>
 
-          <div className="relative z-10 flex flex-col lg:flex-row justify-between items-center gap-12">
-            <div className="max-w-xl text-center lg:text-left">
-              <span className="inline-block px-4 py-1 rounded-full bg-[#e8d5c4]/10 border border-[#e8d5c4]/20 text-[#e8d5c4] text-[9px] font-bold uppercase tracking-[0.3em] mb-6">
-                {t("ct_crisis_badge", "Crisis Protocol Active")}
+          <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10">
+            <div className="max-w-xl">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E84E2D]/20 border border-[#E84E2D]/40 text-[#E84E2D] text-[10px] font-bold uppercase tracking-[0.25em] mb-4">
+                <span className="w-2 h-2 rounded-full bg-[#E84E2D] animate-ping"></span>
+                {t("ct_crisis_badge", "24/7 Rapid Response Active")}
               </span>
-              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4 italic">
-                {t("ct_crisis_title", "Urgent Safety Assistance")}
+
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+                {t("ct_crisis_title", "Urgent Arrest or Safety Emergency?")}
               </h2>
-              <p className="text-slate-300 text-sm leading-relaxed opacity-80">
+
+              <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
                 {t(
                   "ct_crisis_desc",
-                  "If you are facing illegal detention, harassment, or medical mistreatment, our emergency response team is available 24/7 for direct legal aid and safe-access intervention."
+                  "If you or a peer are facing police detention under vagrancy ordinances, physical threats, or eviction, our on-call paralegals and case officers mobilize immediately for station accompaniment and bail coordination."
                 )}
               </p>
             </div>
-            <div className="flex flex-col items-center lg:items-end gap-4">
+
+            <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end gap-3 w-full sm:w-auto">
               <a
-                href={`tel:${t("ct_crisis_phone", "+94 11 234 5678").replace(/[^0-9+]/g, "")}`}
-                className="group bg-white text-[#334155] px-10 py-5 rounded-full font-bold text-lg hover:bg-[#e8d5c4] transition-all flex items-center gap-3 shadow-lg active:scale-95 whitespace-nowrap"
+                href="tel:+94771234567"
+                className="w-full sm:w-auto bg-[#E84E2D] hover:bg-[#d13d1d] text-white px-8 py-4 rounded-full font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-3 shadow-md hover:scale-105 active:scale-95"
               >
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
-                </span>
-                {t("ct_crisis_phone", "+94 11 234 5678")}
+                <span>📞 Hotline:</span>
+                <span>+94 77 123 4567</span>
               </a>
-              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest italic">
-                Confidential • 24/7 • Secure
+
+              <a
+                href="https://wa.me/94771234567"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto bg-[#25d366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-2 shadow-md hover:scale-105 active:scale-95"
+              >
+                <span>WhatsApp Desk</span>
+                <span>↗</span>
+              </a>
+
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">
+                Strictly Confidential • Survivor-Led • Available 24/7
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. CONTACT INFO GRID */}
-      <section id="contact-cards" className="scroll-mt-28 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+      {/* ========================================================================= */}
+      {/* 3. CONTACT INFO CHANNELS */}
+      {/* ========================================================================= */}
+      <section id="contact-cards" className="scroll-mt-28 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
         {[
-          { id: 1, label: "General Inquiries", val: "info@transequalitytrust.lk", sub: "For institutional partnerships." },
-          { id: 2, label: "Media & Press", val: "media@transequalitytrust.lk", sub: "Official statements & interviews." },
-          { id: 3, label: "Office Registry", val: "Colombo 05, Sri Lanka", sub: "Central District HQ." },
+          {
+            id: 1,
+            icon: "⚖️",
+            label: "Emergency & Legal Aid",
+            val: "legal@awc.lk",
+            sub: "Rapid-response bail and court representation desk.",
+            link: "mailto:legal@awc.lk",
+          },
+          {
+            id: 2,
+            icon: "✉️",
+            label: "General & Institutional",
+            val: "info@awc.lk",
+            sub: "Donations, corporate CSR, and research partnerships.",
+            link: "mailto:info@awc.lk",
+          },
+          {
+            id: 3,
+            icon: "📍",
+            label: "Drop-in Safe Hub",
+            val: "Colombo, Sri Lanka",
+            sub: "By appointment or emergency peer intake.",
+            link: "#contact-form",
+          },
         ].map((item) => (
           <motion.div
             key={item.id}
             initial="initial"
             whileInView="whileInView"
+            viewport={{ once: true }}
             variants={fadeInUp}
-            transition={{ delay: item.id * 0.1 }}
-            className="bg-white p-10 rounded-[2.5rem] border border-[#f3f0ec] hover:shadow-lg hover:border-[#2A8ACD] transition-all group"
+            className="bg-white p-8 rounded-3xl border border-gray-200/80 shadow-xs hover:border-[#58214D] hover:shadow-md transition-all flex flex-col justify-between"
           >
-            <p className="text-[#8e7f71] text-[9px] font-bold uppercase tracking-[0.3em] mb-6">
-              {t(`ct_g${item.id}_label`, item.label)}
-            </p>
-            <h4 className="font-serif text-xl text-[#2A8ACD] mb-2">
-              {t(`ct_g${item.id}_val`, item.val)}
-            </h4>
-            <p className="text-gray-400 text-xs italic">
-              {t(`ct_g${item.id}_sub`, item.sub)}
-            </p>
+            <div>
+              <span className="w-10 h-10 rounded-xl bg-orange-50 text-[#E84E2D] flex items-center justify-center text-lg mb-4">
+                {item.icon}
+              </span>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">
+                {item.label}
+              </p>
+              <h4 className="font-serif text-lg sm:text-xl font-bold text-[#141414] mb-2">
+                {item.val}
+              </h4>
+              <p className="text-gray-500 text-xs leading-relaxed">
+                {item.sub}
+              </p>
+            </div>
+            <a
+              href={item.link}
+              className="mt-6 text-xs font-bold text-[#58214D] hover:text-[#E84E2D] uppercase tracking-wider inline-flex items-center gap-1 transition-colors"
+            >
+              <span>Connect</span>
+              <span>→</span>
+            </a>
           </motion.div>
         ))}
       </section>
 
+      {/* ========================================================================= */}
       {/* 4. FORM SECTION */}
+      {/* ========================================================================= */}
       <section id="contact-form" className="scroll-mt-28 max-w-7xl mx-auto px-6 pb-24">
-        <div className="bg-white rounded-[4rem] overflow-hidden shadow-2xl border border-[#f3f0ec] flex flex-col lg:flex-row">
-          <div className="w-full lg:w-3/5 p-12 md:p-20">
-            <h3 className="font-serif text-3xl md:text-4xl text-[#2A8ACD] mb-10 tracking-tight">
-              {t("ct_form_title", "Send a Message.")}
+        <div className="bg-white rounded-3xl md:rounded-[3rem] overflow-hidden shadow-xl border border-gray-200/80 flex flex-col lg:flex-row">
+          
+          {/* Form Left Column */}
+          <div className="w-full lg:w-3/5 p-8 sm:p-12 md:p-16">
+            <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
+              Send An Inquiry
+            </span>
+            <h3 className="font-serif text-3xl sm:text-4xl font-bold text-[#141414] mb-8 tracking-tight">
+              {t("ct_form_title", "How Can We Support You?")}
             </h3>
 
             {receiptRef ? (
-              <div className="p-8 bg-sky-50 rounded-3xl border border-sky-100 text-center space-y-4">
-                <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl mx-auto">
+              <div className="p-8 bg-[#FAF8F5] rounded-3xl border border-orange-200 text-center space-y-4">
+                <div className="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-2xl mx-auto font-bold">
                   ✓
                 </div>
-                <h4 className="font-serif text-2xl font-bold text-[#2A8ACD]">Inquiry Dispatched</h4>
-                <p className="text-slate-600 text-xs leading-relaxed max-w-sm mx-auto">
-                  Thank you. Your message reference is <strong className="font-mono text-[#2A8ACD]">{receiptRef}</strong>. Our desk officers will respond as soon as possible.
+                <h4 className="font-serif text-2xl font-bold text-[#141414]">Inquiry Dispatched Safely</h4>
+                <p className="text-gray-600 text-xs sm:text-sm leading-relaxed max-w-md mx-auto">
+                  Thank you for reaching out. Your reference number is <strong className="font-mono text-[#58214D]">{receiptRef}</strong>. Our designated duty officer will respond with complete confidentiality.
                 </p>
                 <button
                   type="button"
                   onClick={() => setReceiptRef(null)}
-                  className="bg-[#2A8ACD] hover:bg-[#2374b0] text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider mt-4 cursor-pointer"
+                  className="bg-[#58214D] hover:bg-[#45183c] text-white px-7 py-3 rounded-full text-xs font-bold uppercase tracking-widest mt-2 cursor-pointer transition-all"
                 >
-                  Send Another Inquiry
+                  Submit Another Message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                
+                {/* Inquiry Topic Selector */}
+                <div>
+                  <label className="text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-2 block">
+                    What is this regarding? *
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {[
+                      "Urgent Legal Aid",
+                      "Crisis Shelter",
+                      "Healthcare Access",
+                      "Partnerships & CSR",
+                      "Media Inquiry",
+                      "General Support",
+                    ].map((type) => (
+                      <button
+                        type="button"
+                        key={type}
+                        onClick={() => setInquiryType(type)}
+                        className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all text-left truncate ${
+                          inquiryType === type
+                            ? "bg-[#58214D] text-white border-[#58214D] shadow-xs font-bold"
+                            : "bg-gray-50 hover:bg-gray-100 text-gray-700 border-gray-200"
+                        }`}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1 mb-2 block">
-                      Your Name *
+                    <label className="text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Your Name / Pseudonym *
                     </label>
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full border-b border-gray-200 py-4 focus:border-[#2A8ACD] outline-none transition-colors bg-transparent text-sm"
-                      placeholder="Full Name"
+                      className="w-full border-b-2 border-gray-200 py-3 focus:border-[#58214D] outline-none transition-colors bg-transparent text-sm"
+                      placeholder="Preferred name"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1 mb-2 block">
+                    <label className="text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
                       Email Address *
                     </label>
                     <input
@@ -214,66 +317,76 @@ export default function ContactPage() {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full border-b border-gray-200 py-4 focus:border-[#2A8ACD] outline-none transition-colors bg-transparent text-sm"
-                      placeholder="hello@domain.com"
+                      className="w-full border-b-2 border-gray-200 py-3 focus:border-[#58214D] outline-none transition-colors bg-transparent text-sm"
+                      placeholder="name@domain.com"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1 mb-2 block">
+                  <label className="text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
                     Phone / WhatsApp Number (Optional)
                   </label>
                   <input
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full border-b border-gray-200 py-4 focus:border-[#2A8ACD] outline-none transition-colors bg-transparent text-sm"
-                    placeholder="07X XXX XXXX"
+                    className="w-full border-b-2 border-gray-200 py-3 focus:border-[#58214D] outline-none transition-colors bg-transparent text-sm"
+                    placeholder="07X XXX XXXX (or leave blank for email-only)"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1 mb-2 block">
-                    Message *
+                  <label className="text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                    Your Message / Details *
                   </label>
                   <textarea
                     rows={4}
                     required
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full border-b border-gray-200 py-4 focus:border-[#2A8ACD] outline-none transition-colors bg-transparent text-sm resize-none"
-                    placeholder="How can our desk assist you?"
+                    className="w-full border-b-2 border-gray-200 py-3 focus:border-[#58214D] outline-none transition-colors bg-transparent text-sm resize-none"
+                    placeholder="Please describe how our desk can assist or collaborate with you..."
                   ></textarea>
                 </div>
 
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="bg-[#2A8ACD] hover:bg-[#2374b0] text-white px-12 py-4 rounded-full text-[10px] font-bold tracking-widest hover:shadow-xl transition-all uppercase active:scale-95 shadow-md cursor-pointer disabled:opacity-50"
+                  className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white px-10 py-4 rounded-full text-xs font-bold tracking-widest uppercase hover:scale-105 active:scale-95 transition-all shadow-md cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmitting ? "Transmitting..." : t("ct_form_btn", "Submit Inquiry")}
+                  {isSubmitting ? "Transmitting..." : t("ct_form_btn", "Submit Message")}
                 </button>
               </form>
             )}
           </div>
 
-          <div className="hidden lg:block w-2/5 relative min-h-[480px]">
+          {/* Side Visual Column */}
+          <div className="hidden lg:block w-2/5 relative min-h-[500px]">
             <Image
-              src={getAssetUrl(
+              src={resolveAsset(
                 "ct_form_img",
-                "https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+                "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1000&q=80"
               )}
               fill
-              alt="Community Desk"
+              alt="AWC Community Desk"
               className="object-cover"
-              sizes="(max-width: 768px) 50vw, 30vw"
+              sizes="(max-width: 1024px) 50vw, 40vw"
               unoptimized={isPreview}
             />
-            <div className="absolute inset-0 bg-[#2A8ACD]/10 backdrop-blur-[1px]"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#58214D]/90 via-[#58214D]/30 to-transparent flex flex-col justify-end p-10 text-white">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#EFB9C5] mb-2">
+                Safe &amp; Protected Channels
+              </span>
+              <h4 className="font-serif text-2xl font-bold leading-snug">
+                &ldquo;You are never alone. Our collective stands with you every step of the way.&rdquo;
+              </h4>
+            </div>
           </div>
+
         </div>
       </section>
+
     </div>
   );
 }

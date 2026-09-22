@@ -11,21 +11,21 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
-  title: "Trans Equality Trust (TET) | Sri Lanka",
-  description: "Protecting the rights, safety, and well-being of the transgender community.",
+  title: "AWC | Abhimani Women's Collective",
+  description: "Standing with sex workers, every step of the way.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfair.variable} font-sans bg-gradient-to-br from-sky-50/40 via-white to-pink-50/40 text-slate-800 antialiased`}
+        className={`${inter.variable} ${playfair.variable} font-sans min-h-screen flex flex-col bg-white text-slate-800 antialiased`}
         suppressHydrationWarning
       >
         <LanguageProvider>
           <ScrollToTop /> 
           <Navbar />
-          <main className="min-h-screen">{children}</main>
+          <main className="w-full">{children}</main>
           <Footer />
           <WhatsAppButton phoneNumber="94771234567" />
         </LanguageProvider>
