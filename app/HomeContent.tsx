@@ -55,7 +55,7 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
                 ) : (
                   <>
                     Standing with <br />
-                    sex workers, <br />
+                    the community <br />
                     <span className="text-[#58214D]">every step of</span> <br />
                     <span className="text-[#58214D]">the way.</span>
                   </>
@@ -800,7 +800,7 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
       {/* ========================================================================= */}
       {/* 11. CONTACT US / SAFE REACH (DIRECTLY BEFORE FOOTER) */}
       {/* ========================================================================= */}
-      <section className="bg-[#181818] text-white py-16 border-t border-gray-800">
+      <section className="bg-[#2E2E31] text-white py-16 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
           <div>
             <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
