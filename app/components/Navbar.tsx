@@ -1,13 +1,21 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "../context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
-  const { locale, setLocale, t } = useLanguage();
+  const pathname = usePathname();
+  const { locale, setLocale, t, data, getAsset, getAssetUrl, isPreview } = useLanguage();
+  const resolveAsset = getAsset || getAssetUrl;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Dynamic logo from Admin panel, falling back to public/images/logo.jpeg
+  const adminLogo = data?.["site_logo"];
+  const logoSrc = adminLogo ? resolveAsset(adminLogo) : "/images/logo.png";
 
   const languages = [
     { code: "en", label: "EN" },
@@ -15,69 +23,66 @@ export default function Navbar() {
     { code: "ta", label: "தமி" },
   ];
 
-const navLinks = [
+  const navLinks = [
     { name: t("nav_about", "ABOUT US"), href: "/about" },
     { name: t("nav_work", "OUR WORK"), href: "/projects" },
+    { name: t("nav_shop", "SHOP"), href: "/shop" },
+    { name: t("nav_news", "NEWS"), href: "/news" },
     { name: t("nav_impact", "OUR IMPACT"), href: "/gallery" },
     { name: t("nav_contact", "CONTACT US"), href: "/contact" },
   ];
+
+  // Helper to determine if link is currently active
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
 
   return (
     <header className="bg-white sticky top-0 z-50 border-b border-gray-100 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           
-          {/* 1. AWC LOGO */}
-          <Link href="/" className="flex items-center gap-3 group flex-shrink-0 mr-8 lg:mr-12">
-            {/* Terracotta Icon */}
-            <div className="w-8 h-10 relative flex items-center justify-center">
-              <svg viewBox="0 0 36 44" fill="none" className="w-full h-full">
-                <path
-                  d="M18 2C10 2 4 8 4 17C4 27 18 42 18 42C18 42 32 27 32 17C32 8 26 2 18 2Z"
-                  fill="#D45B34"
-                  opacity="0.9"
-                />
-                <path
-                  d="M10 14H26M8 20H28M12 26H24"
-                  stroke="#FFFFFF"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-
-            {/* AWC Typography */}
-            <span className="text-3xl font-black tracking-tight text-[#1F1F1F]">
-              AWC
-            </span>
-
-            {/* Divider */}
-            <span className="h-7 w-[1px] bg-gray-300 ml-1"></span>
-
-            {/* Stacked Subtext */}
-            <div className="flex flex-col text-[10px] font-extrabold uppercase leading-[1.1] tracking-wider text-gray-800">
-              <span>ABHIMANI</span>
-              <span>WOMEN&apos;S</span>
-              <span>COLLECTIVE</span>
+          {/* 1. LOGO (LOADED FROM PUBLIC/IMAGES/LOGO.JPEG OR ADMIN) */}
+          <Link href="/" className="flex items-center gap-3 group flex-shrink-0 mr-6 lg:mr-10">
+            <div className="relative h-11 w-36 sm:w-44">
+              <Image
+                src={logoSrc}
+                alt="Abhimani Women's Collective"
+                fill
+                priority
+                className="object-contain object-left"
+                unoptimized={isPreview}
+              />
             </div>
           </Link>
 
-          {/* 2. DIRECT DESKTOP LINKS (No Dropdowns) */}
-          <nav className="hidden md:flex items-center space-x-8 lg:space-x-10 text-[13px] font-bold uppercase tracking-wider text-gray-800">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="hover:text-[#E84E2D] transition-colors py-1"
-              >
-                {link.name}
-              </Link>
-            ))}
+          {/* 2. DIRECT DESKTOP LINKS WITH ACTIVE HIGHLIGHT */}
+          <nav className="hidden xl:flex items-center space-x-6 lg:space-x-8 text-[12px] font-bold uppercase tracking-wider text-gray-800">
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`relative py-2 transition-colors ${
+                    active ? "text-[#E84E2D]" : "text-gray-800 hover:text-[#E84E2D]"
+                  }`}
+                >
+                  <span>{link.name}</span>
+                  {active && (
+                    <motion.span
+                      layoutId="activeNavIndicator"
+                      className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E84E2D] rounded-full"
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* 3. RIGHT ACTIONS: DONATE + SOCIALS + LANGUAGE SWITCHER */}
-          <div className="hidden md:flex items-center gap-4 flex-shrink-0">
-            {/* Donate Pill Button */}
+          <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
             <Link
               href="/donate"
               className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-black uppercase tracking-widest px-6 py-2.5 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95"
@@ -85,7 +90,6 @@ const navLinks = [
               DONATE
             </Link>
 
-            {/* Social Icons */}
             <div className="flex items-center gap-2 text-gray-700">
               <a
                 href="https://facebook.com"
@@ -112,7 +116,6 @@ const navLinks = [
               </a>
             </div>
 
-            {/* Language Switcher */}
             <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-full text-[10px] font-bold">
               {languages.map((lang) => (
                 <button
@@ -131,7 +134,7 @@ const navLinks = [
 
           {/* 4. MOBILE HAMBURGER TOGGLE */}
           <button
-            className="md:hidden p-2 text-gray-800"
+            className="xl:hidden p-2 text-gray-800"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Menu"
           >
@@ -154,10 +157,9 @@ const navLinks = [
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-gray-200 overflow-hidden shadow-lg"
+            className="xl:hidden bg-white border-b border-gray-200 overflow-hidden shadow-lg"
           >
             <div className="p-6 space-y-4 text-xs font-bold uppercase tracking-wider text-gray-800">
-              
               {/* Language Switcher */}
               <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                 <span className="text-[11px] text-gray-500 font-semibold">Language</span>
@@ -176,19 +178,26 @@ const navLinks = [
                 </div>
               </div>
 
-              {/* Navigation Links */}
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-2 hover:text-[#E84E2D] border-b border-gray-50 last:border-none transition-colors"
-                >
-                  {link.name}
-                </Link>
-              ))}
+              {/* Navigation Links with Active States */}
+              {navLinks.map((link) => {
+                const active = isActive(link.href);
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`block py-2 border-b border-gray-50 last:border-none transition-colors ${
+                      active ? "text-[#E84E2D] font-extrabold" : "hover:text-[#E84E2D]"
+                    }`}
+                  >
+                    <span className="flex items-center justify-between">
+                      <span>{link.name}</span>
+                      {active && <span className="w-1.5 h-1.5 rounded-full bg-[#E84E2D]"></span>}
+                    </span>
+                  </Link>
+                );
+              })}
 
-              {/* Mobile CTA */}
               <div className="pt-2">
                 <Link
                   href="/donate"
@@ -198,7 +207,6 @@ const navLinks = [
                   DONATE
                 </Link>
               </div>
-
             </div>
           </motion.div>
         )}

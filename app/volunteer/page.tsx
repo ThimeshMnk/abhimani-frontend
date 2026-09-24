@@ -2,25 +2,28 @@ import type { Metadata } from "next";
 import VolunteerContent from "./VolunteerContent";
 
 export const metadata: Metadata = {
-  title: "Volunteer & Youth Empowerment | Trans Equality Trust",
-  description: "Join TET's community network as a volunteer or youth peer advocate. Help build a stigma-free Sri Lanka through advocacy, peer circles, and community support.",
+  title: "Volunteer & Community Allyship | Abhimani Women's Collective",
+  description:
+    "Stand in solidarity with female and transgender sex workers in Sri Lanka. Lend your skills in pro-bono legal defense, healthcare navigation, digital storytelling, or community mutual aid.",
   keywords: [
     "Volunteer Sri Lanka NGO",
-    "Trans Equality Trust volunteer application",
-    "Youth peer support volunteer Colombo",
-    "LGBTQ+ advocacy volunteer opportunities Sri Lanka"
+    "Abhimani Women's Collective volunteer",
+    "Sex worker rights advocacy volunteer Colombo",
+    "Pro-bono legal volunteer Sri Lanka",
+    "Human rights volunteer opportunities Sri Lanka",
   ],
   openGraph: {
-    title: "Volunteer & Youth Empowerment | Trans Equality Trust",
-    description: "Lend your voice, skills, and empathy to help build a stigma-free Sri Lanka.",
-    url: "https://transequalitytrust.lk/volunteer",
-    siteName: "Trans Equality Trust",
+    title: "Volunteer & Community Allyship | Abhimani Women's Collective",
+    description:
+      "Join our grassroots network. Lend your skills, time, and solidarity to protect bodily autonomy and constitutional dignity in Sri Lanka.",
+    url: "https://awc.lk/volunteer",
+    siteName: "Abhimani Women's Collective",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80",
+        url: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=80",
         width: 1200,
         height: 630,
-        alt: "Trans Equality Trust Volunteer Community",
+        alt: "AWC Community Solidarity & Volunteers",
       },
     ],
     locale: "en_LK",
@@ -28,27 +31,28 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Volunteer | Trans Equality Trust",
-    description: "Join our volunteer network and help shape a stigma-free future.",
+    title: "Volunteer with AWC | Stand with Frontline Defenders",
+    description:
+      "Lend your voice, professional skills, and solidarity to empower community members across Sri Lanka.",
   },
   alternates: {
-    canonical: "https://transequalitytrust.lk/volunteer",
+    canonical: "https://awc.lk/volunteer",
   },
 };
 
 export default function Page() {
-  // 2. WebPage & Organization Schema for Volunteer Opportunities
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Volunteer Application Desk",
-    "description": "Application portal for general and youth volunteering opportunities with Trans Equality Trust.",
-    "url": "https://transequalitytrust.lk/volunteer",
-    "provider": {
+    name: "Volunteer Application Portal",
+    description:
+      "Application portal for legal, healthcare, media, and community volunteers supporting Abhimani Women's Collective in Sri Lanka.",
+    url: "https://awc.lk/volunteer",
+    provider: {
       "@type": "NGO",
-      "name": "Trans Equality Trust",
-      "url": "https://transequalitytrust.lk"
-    }
+      name: "Abhimani Women's Collective",
+      url: "https://awc.lk",
+    },
   };
 
   return (

@@ -6,33 +6,39 @@ const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"
 interface ApiActivity {
   id: number;
   title: Record<string, string> | string;
+  category?: string;
   date: string;
   location: Record<string, string> | string;
   excerpt: Record<string, string> | string;
   img?: string;
+  image?: string;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Daily Activities & Field Reports",
-    description: "Read real-time updates, field visits, community support sessions, and grassroots interventions happening across Sri Lanka by Trans Equality Trust.",
+    title: "News & Press Releases | Abhimani Women's Collective",
+    description:
+      "Official press releases, legal advocacy bulletins, policy submissions, and frontline field updates from Abhimani Women's Collective (AWC) in Sri Lanka.",
     keywords: [
-      "TET news and activities",
-      "Transgender community field reports Sri Lanka",
-      "Grassroots advocacy updates Colombo",
-      "Trans Equality Trust blog"
+      "AWC news and press releases",
+      "Sex worker rights advocacy Sri Lanka",
+      "Decriminalisation policy briefs Colombo",
+      "Abhimani Women's Collective field reports",
+      "Emergency bail and legal aid news Sri Lanka",
+      "Human rights NGO press updates",
     ],
     openGraph: {
-      title: "Daily Activities & Field Reports | Trans Equality Trust",
-      description: "Real-time updates, field visits, and community support sessions across Sri Lanka.",
-      url: "https://transequalitytrust.lk/news",
-      siteName: "Trans Equality Trust",
+      title: "News & Press Releases | Abhimani Women's Collective",
+      description:
+        "Official press announcements, policy reform briefs, and frontline community updates across Sri Lanka.",
+      url: "https://awc.lk/news",
+      siteName: "Abhimani Women's Collective",
       images: [
         {
-          url: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80",
+          url: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80",
           width: 1200,
           height: 630,
-          alt: "Trans Equality Trust Field Activities",
+          alt: "Abhimani Women's Collective Press Dispatches and Updates",
         },
       ],
       locale: "en_LK",
@@ -40,19 +46,26 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Daily Activities | Trans Equality Trust",
-      description: "Real-time field updates and community interventions.",
+      title: "News & Bulletins | Abhimani Women's Collective",
+      description:
+        "Official press releases, constitutional submissions, and community field dispatches from Sri Lanka.",
+      images: [
+        "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80",
+      ],
     },
     alternates: {
-      canonical: "https://transequalitytrust.lk/news",
+      canonical: "https://awc.lk/news",
     },
   };
 }
 
 export default async function Page() {
   let activities: ApiActivity[] = [];
+
   try {
-    const res = await fetch(`${API_BASE}/api/activities`, { next: { revalidate: 60 } });
+    const res = await fetch(`${API_BASE}/api/activities`, {
+      next: { revalidate: 60 },
+    });
     if (res.ok) {
       activities = await res.json();
     }
@@ -60,33 +73,48 @@ export default async function Page() {
     console.error("Failed to fetch activities for SEO schema:", err);
   }
 
-  // Blog / News Listing Schema
+  // Schema.org Blog / News Media Listing
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "name": "TET Daily Activities & Field Reports",
-    "description": "Real-time field updates and grassroots interventions by Trans Equality Trust.",
-    "url": "https://transequalitytrust.lk/news",
-    "blogPost": activities.map((act) => {
-      const titleText = typeof act.title === "object" && act.title !== null
-        ? (act.title.en || Object.values(act.title)[0])
-        : act.title;
+    name: "AWC Press Desk & Field Updates",
+    description:
+      "Official press announcements, policy reform briefs, and grassroots interventions by Abhimani Women's Collective in Sri Lanka.",
+    url: "https://awc.lk/news",
+    publisher: {
+      "@type": "NGO",
+      name: "Abhimani Women's Collective",
+      url: "https://awc.lk",
+      logo: "https://awc.lk/images/logo.jpeg",
+    },
+    blogPost: activities.map((act) => {
+      const titleText =
+        typeof act.title === "object" && act.title !== null
+          ? act.title.en || Object.values(act.title)[0]
+          : act.title;
 
-      const excerptText = typeof act.excerpt === "object" && act.excerpt !== null
-        ? (act.excerpt.en || Object.values(act.excerpt)[0])
-        : act.excerpt;
+      const excerptText =
+        typeof act.excerpt === "object" && act.excerpt !== null
+          ? act.excerpt.en || Object.values(act.excerpt)[0]
+          : act.excerpt;
 
       return {
-        "@type": "BlogPosting",
-        "headline": titleText || "Field Update",
-        "description": excerptText || "",
-        "datePublished": act.date,
-        "author": {
+        "@type": "NewsArticle",
+        headline: titleText || "AWC Press Release",
+        description: excerptText || "",
+        datePublished: act.date,
+        author: {
           "@type": "NGO",
-          "name": "Trans Equality Trust"
-        }
+          name: "Abhimani Women's Collective",
+          url: "https://awc.lk",
+        },
+        publisher: {
+          "@type": "NGO",
+          name: "Abhimani Women's Collective",
+          url: "https://awc.lk",
+        },
       };
-    })
+    }),
   };
 
   return (

@@ -518,10 +518,8 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 7. GALLERY & COMMUNITY MOMENTS */}
-      {/* ========================================================================= */}
-      <section className="py-24 bg-white">
+      
+      {/* <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
             <div>
@@ -576,70 +574,9 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* ========================================================================= */}
-      {/* 8. RESOURCES & PUBLICATIONS */}
-      {/* ========================================================================= */}
-      <section className="py-24 bg-[#FAF8F5] border-t border-gray-200/60">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7">
-              <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
-                Toolkits & Research
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#141414] mb-6">
-                Knowledge That Protects
-              </h2>
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-8">
-                We publish trilingual legal rights pocket manuals, healthcare
-                guides, and policy reform research so community members and
-                allies understand constitutional protections against harassment
-                and unlawful arrest.
-              </p>
-
-              <div className="space-y-4 mb-8">
-                {[
-                  "Know Your Rights: Pocket Legal Guide for Sex Workers (Sinhala / Tamil / English)",
-                  "Harm Reduction and Peer Health Intervention Manual",
-                  "Constitutional Reform Policy Brief: Decriminalisation in Sri Lanka",
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-start gap-3 p-3 bg-white rounded-xl border border-gray-200/70"
-                  >
-                    <span className="text-[#E84E2D] mt-0.5">📄</span>
-                    <span className="text-xs sm:text-sm font-medium text-gray-800">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <Link
-                href="/resources"
-                className="bg-[#58214D] hover:bg-[#45183c] text-white text-xs font-bold px-7 py-3.5 rounded-lg shadow-sm transition-all inline-block uppercase tracking-wider"
-              >
-                Browse & Download Resources
-              </Link>
-            </div>
-
-            <div className="lg:col-span-5 relative aspect-square rounded-3xl overflow-hidden shadow-xl">
-              <Image
-                src={getAsset(
-                  "resources_feature_img",
-                  "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=900&q=80",
-                )}
-                alt="AWC Legal Toolkits and Resources"
-                fill
-                className="object-cover"
-                unoptimized={isPreview}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
+      
       {/* ========================================================================= */}
       {/* 9. NEWS & UPDATES */}
       {/* ========================================================================= */}
@@ -740,13 +677,14 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Card 1: Individual Support & Volunteers */}
             <div className="p-8 sm:p-12 rounded-3xl bg-white border border-gray-200/70 shadow-sm flex flex-col justify-between">
               <div>
                 <span className="w-12 h-12 rounded-2xl bg-orange-100 text-[#E84E2D] flex items-center justify-center font-bold text-xl mb-6">
                   ❤️
                 </span>
                 <h3 className="font-serif font-bold text-2xl text-[#141414] mb-3">
-                  Individual Giving & Volunteers
+                  Individual Giving &amp; Volunteers
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed mb-6">
                   Fund an emergency bail relief grant, sponsor medical dignity
@@ -761,8 +699,9 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
                 >
                   Donate Directly
                 </Link>
+                {/* 👇 Now navigates to /volunteer */}
                 <Link
-                  href="/get-involved"
+                  href="/volunteer"
                   className="border border-gray-300 hover:border-gray-800 text-gray-800 text-xs font-bold uppercase tracking-widest px-6 py-3.5 rounded-full transition-all"
                 >
                   Volunteer With Us
@@ -770,13 +709,14 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
               </div>
             </div>
 
+            {/* Card 2: Corporate Partnerships */}
             <div className="p-8 sm:p-12 rounded-3xl bg-white border border-gray-200/70 shadow-sm flex flex-col justify-between">
               <div>
                 <span className="w-12 h-12 rounded-2xl bg-purple-100 text-[#58214D] flex items-center justify-center font-bold text-xl mb-6">
                   🤝
                 </span>
                 <h3 className="font-serif font-bold text-2xl text-[#141414] mb-3">
-                  Corporate Partnerships & CSR
+                  Corporate Partnerships &amp; CSR
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed mb-6">
                   Partner with AWC for ethical procurement from our artisan
@@ -785,8 +725,9 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
                 </p>
               </div>
               <div>
+                {/* 👇 Now navigates to /contact */}
                 <Link
-                  href="/get-involved#corporate"
+                  href="/contact"
                   className="bg-[#58214D] hover:bg-[#45183c] text-white text-xs font-bold uppercase tracking-widest px-6 py-3.5 rounded-full shadow-sm transition-all inline-block"
                 >
                   Partner With Us
@@ -797,42 +738,8 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 11. CONTACT US / SAFE REACH (DIRECTLY BEFORE FOOTER) */}
-      {/* ========================================================================= */}
-      <section className="bg-[#2E2E31] text-white py-16 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
-          <div>
-            <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
-              We Are Here For You
-            </span>
-            <h3 className="font-serif text-2xl sm:text-3xl font-bold leading-snug">
-              Need Safe Advice or Urgent Crisis Support?
-            </h3>
-            <p className="text-gray-400 text-xs sm:text-sm mt-2 max-w-xl">
-              All communications are strictly confidential. Reach out to our
-              crisis coordination team or visit our Colombo drop-in centre.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            <Link
-              href="/contact"
-              className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-full shadow-sm transition-all"
-            >
-              Contact Us
-            </Link>
-            <a
-              href="https://wa.me/94771234567"
-              target="_blank"
-              rel="noreferrer"
-              className="border border-white/40 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-full transition-all flex items-center gap-2"
-            >
-              <span>WhatsApp Hotline</span>
-              <span>↗</span>
-            </a>
-          </div>
-        </div>
-      </section>
+
+      
     </div>
   );
 }

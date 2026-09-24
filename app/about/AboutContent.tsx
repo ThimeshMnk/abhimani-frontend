@@ -547,37 +547,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 7. BOTTOM ACTION BANNER */}
-      {/* ========================================================================= */}
-      <section className="bg-[#181818] text-white py-16 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div>
-            <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">Stand With Us</span>
-            <h3 className="font-serif text-2xl sm:text-3xl font-bold">
-              Join Our Survivor-Led Movement in Sri Lanka
-            </h3>
-            <p className="text-gray-400 text-xs sm:text-sm mt-1 max-w-xl">
-              Support our bail relief fund, purchase survivor-crafted artisan products, or partner with us on legal advocacy.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-4 flex-shrink-0">
-            <Link
-              href="/donate"
-              className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95"
-            >
-              Donate Now
-            </Link>
-            <Link
-              href="/contact"
-              className="border border-white/40 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-full transition-all"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </section>
-
+     
     </div>
   );
 }

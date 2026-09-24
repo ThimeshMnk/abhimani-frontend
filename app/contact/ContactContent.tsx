@@ -116,7 +116,7 @@ export default function ContactPage() {
       {/* ========================================================================= */}
       {/* 2. 24/7 EMERGENCY CRISIS & BAIL RESPONSE BANNER */}
       {/* ========================================================================= */}
-      <section id="contact-crisis" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-16">
+      {/* <section id="contact-crisis" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-16">
         <div className="bg-[#181818] rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-16 text-white relative overflow-hidden shadow-2xl border border-gray-800">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#E84E2D]/10 rounded-full blur-[100px] -mr-40 -mt-40 pointer-events-none"></div>
 
@@ -164,12 +164,12 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ========================================================================= */}
       {/* 3. CONTACT INFO CHANNELS */}
       {/* ========================================================================= */}
-      <section id="contact-cards" className="scroll-mt-28 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
+      {/* <section id="contact-cards" className="scroll-mt-28 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
         {[
           {
             id: 1,
@@ -227,7 +227,7 @@ export default function ContactPage() {
             </a>
           </motion.div>
         ))}
-      </section>
+      </section> */}
 
       {/* ========================================================================= */}
       {/* 4. FORM SECTION */}

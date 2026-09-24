@@ -444,55 +444,7 @@ export default function WorkPage() {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 3. SOCIAL ENTERPRISE / ARTISAN SHOP FEATURE */}
-      {/* ========================================================================= */}
-      <section 
-        id="shop-enterprise" 
-        className="scroll-mt-28 py-20 bg-white border-t border-gray-200/60"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="bg-[#58214D] text-white rounded-3xl md:rounded-[3rem] overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-center">
-            
-            <div className="p-8 sm:p-12 lg:p-16 lg:col-span-7">
-              <span className="text-[#EFB9C5] font-bold text-xs uppercase tracking-[0.25em] block mb-3">
-                Livelihood Autonomy • Social Enterprise
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-6">
-                Economic Liberation Through Artisan Craftsmanship.
-              </h2>
-              <p className="text-pink-100/90 text-sm sm:text-base leading-relaxed mb-8 max-w-xl">
-                True freedom requires economic choices. Our survivor-run social enterprise trains community members in upcycled textiles, traditional hand-weaving, and sustainable lifestyle goods. 100% of proceeds fund emergency bail relief and survivor survival stipends.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/shop"
-                  className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-black uppercase tracking-widest px-8 py-3.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-md"
-                >
-                  Visit The Artisan Shop
-                </Link>
-                <Link
-                  href="/shop#catalog"
-                  className="border border-white/40 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-full transition-all"
-                >
-                  View Products Catalog
-                </Link>
-              </div>
-            </div>
-
-            <div className="lg:col-span-5 relative h-80 lg:h-full min-h-[400px]">
-              <Image
-                src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1000&q=80"
-                alt="AWC Artisan Crafts & Ethical Merchandise"
-                fill
-                className="object-cover"
-              />
-            </div>
-
-          </div>
-        </div>
-      </section>
-
+      
       {/* ========================================================================= */}
       {/* 4. TOOLKITS & RESOURCES PREVIEW */}
       {/* ========================================================================= */}
@@ -549,46 +501,7 @@ export default function WorkPage() {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 5. CALL TO ACTION: GET INVOLVED & PARTNERSHIPS */}
-      {/* ========================================================================= */}
-      <section 
-        id="work-cta" 
-        className="py-20 bg-[#181818] text-white border-t border-gray-800"
-      >
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-3">
-            Stand With Frontline Defenders
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
-            Partner With Our Initiatives in Sri Lanka
-          </h2>
-          <p className="text-gray-300 text-xs sm:text-sm md:text-base mb-8 max-w-xl mx-auto leading-relaxed">
-            Whether you are an attorney offering pro-bono bail defense, an institution seeking ethical corporate procurement, or an individual donor supporting crisis safe houses—your solidarity powers our autonomy.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/donate"
-              className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white px-8 py-3.5 rounded-full text-xs font-black uppercase tracking-widest shadow-md transition-all hover:scale-105 active:scale-95"
-            >
-              Donate to the Bail Fund
-            </Link>
-            <Link
-              href="/get-involved"
-              className="border border-white/40 hover:bg-white/10 text-white px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all"
-            >
-              Explore Partnerships
-            </Link>
-            <Link
-              href="/contact"
-              className="bg-white/10 hover:bg-white/20 text-white px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all"
-            >
-              Contact Program Leads
-            </Link>
-          </div>
-        </div>
-      </section>
+      
 
       {/* ========================================================================= */}
       {/* 6. MODAL DETAIL VIEW */}

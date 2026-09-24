@@ -9,7 +9,9 @@ export default function Footer() {
   const { t, getAsset, getAssetUrl, isPreview, data } = useLanguage();
   const resolveAsset = getAsset || getAssetUrl;
 
-  const customLogo = data?.["site_logo"];
+  // Uses admin-uploaded logo, falling back to public/images/logo.jpeg
+  const adminLogo = data?.["site_logo"];
+  const logoSrc = adminLogo ? resolveAsset(adminLogo) : "/images/logo.png";
 
   // Social Links
   const socials = [
@@ -51,49 +53,16 @@ export default function Footer() {
           
           {/* Column 1: AWC Identity & Socials (4 Cols) */}
           <div className="lg:col-span-4 space-y-6">
-            <Link href="/" className="inline-flex items-center gap-3 group">
-              {customLogo ? (
-                <div className="relative h-10 w-44">
-                  <Image
-                    src={resolveAsset(customLogo)}
-                    fill
-                    alt="Abhimani Women's Collective"
-                    className="object-contain object-left"
-                    unoptimized={isPreview}
-                  />
-                </div>
-              ) : (
-                <>
-                  {/* Terracotta Icon */}
-                  <div className="w-8 h-10 relative flex items-center justify-center flex-shrink-0">
-                    <svg viewBox="0 0 36 44" fill="none" className="w-full h-full">
-                      <path
-                        d="M18 2C10 2 4 8 4 17C4 27 18 42 18 42C18 42 32 27 32 17C32 8 26 2 18 2Z"
-                        fill="#D45B34"
-                        opacity="0.9"
-                      />
-                      <path
-                        d="M10 14H26M8 20H28M12 26H24"
-                        stroke="#FFFFFF"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </div>
-
-                  <span className="text-3xl font-black tracking-tight text-white">
-                    AWC
-                  </span>
-
-                  <span className="h-7 w-[1px] bg-gray-700 ml-1"></span>
-
-                  <div className="flex flex-col text-[10px] font-extrabold uppercase leading-[1.1] tracking-wider text-gray-300">
-                    <span>ABHIMANI</span>
-                    <span>WOMEN&apos;S</span>
-                    <span>COLLECTIVE</span>
-                  </div>
-                </>
-              )}
+            <Link href="/" className="inline-block">
+              <div className="relative h-11 w-44">
+                <Image
+                  src={logoSrc}
+                  fill
+                  alt="Abhimani Women's Collective"
+                  className="object-contain object-left"
+                  unoptimized={isPreview}
+                />
+              </div>
             </Link>
 
             <p className="text-gray-400 text-xs sm:text-sm leading-relaxed max-w-sm">
@@ -101,7 +70,7 @@ export default function Footer() {
             </p>
 
             {/* Social Icons */}
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-1">
               {socials.map((soc) => (
                 <a
                   key={soc.name}
@@ -118,7 +87,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Organization (2.5 Cols) */}
+          {/* Column 2: About & Organization (2.5 Cols) */}
           <div className="lg:col-span-2">
             <h4 className="text-white font-bold text-xs uppercase tracking-[0.2em] mb-5">
               Organization
@@ -126,12 +95,17 @@ export default function Footer() {
             <ul className="space-y-3 text-xs text-gray-400">
               <li>
                 <Link href="/about" className="hover:text-[#E84E2D] transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/about#who-we-are" className="hover:text-[#E84E2D] transition-colors">
                   Who We Are
                 </Link>
               </li>
               <li>
                 <Link href="/about#our-story" className="hover:text-[#E84E2D] transition-colors">
-                  Our Origins &amp; Story
+                  Our Story &amp; Origins
                 </Link>
               </li>
               <li>
@@ -141,62 +115,67 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/about#values" className="hover:text-[#E84E2D] transition-colors">
-                  Core Values
+                  Our Core Values
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-[#E84E2D] transition-colors">
-                  Drop-in Centre &amp; Contact
+                  Contact Us
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Frontline Initiatives (2.5 Cols) */}
+          {/* Column 3: Frontline Work & Resources (2.5 Cols) */}
           <div className="lg:col-span-2">
             <h4 className="text-white font-bold text-xs uppercase tracking-[0.2em] mb-5">
-              Initiatives
+              Work &amp; Resources
             </h4>
             <ul className="space-y-3 text-xs text-gray-400">
               <li>
                 <Link href="/projects" className="hover:text-[#E84E2D] transition-colors">
-                  Emergency Legal Bail Fund
+                  Our Work &amp; Programs
                 </Link>
               </li>
               <li>
                 <Link href="/shop" className="hover:text-[#E84E2D] transition-colors">
-                  Artisan Social Enterprise
+                  Artisan Shop &amp; Products
                 </Link>
               </li>
               <li>
-                <Link href="/stories" className="hover:text-[#E84E2D] transition-colors">
-                  Survivor Impact Stories
+                <Link href="/news" className="hover:text-[#E84E2D] transition-colors">
+                  News &amp; Press Releases
                 </Link>
               </li>
               <li>
                 <Link href="/gallery" className="hover:text-[#E84E2D] transition-colors">
-                  Community Gallery
+                  Events &amp; Gallery
                 </Link>
               </li>
               <li>
                 <Link href="/resources" className="hover:text-[#E84E2D] transition-colors">
-                  Know Your Rights Manuals ↗
+                  Toolkits &amp; Publications
+                </Link>
+              </li>
+              <li>
+                <Link href="/volunteer" className="hover:text-[#E84E2D] transition-colors">
+                  Volunteer Registry
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Emergency Bail & Solidarity Card (3 Cols) */}
+          {/* Column 4: Emergency Bail & Solidarity Card (4 Cols) */}
           <div className="lg:col-span-4 bg-gradient-to-br from-[#1C181B] to-[#251A22] p-6 sm:p-7 rounded-3xl border border-gray-800 shadow-xl flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#E84E2D] block mb-2">
                 Emergency Mutual Aid
               </span>
               <h4 className="font-serif text-lg font-bold text-white mb-2">
-                Support the Bail Fund
+                Support the Bail Relief Fund
               </h4>
               <p className="text-gray-400 text-xs mb-5 leading-relaxed">
-                100% of your contribution directly funds 24/7 paralegal emergency station accompaniment, court bail bonds, and safe houses.
+                100% of your contribution directly funds 24/7 paralegal emergency police station accompaniment, court bail bonds, and safe houses.
               </p>
             </div>
 
@@ -223,14 +202,14 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} Abhimani Women&apos;s Collective (AWC) Sri Lanka. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center gap-6">
             <Link href="/privacy" className="hover:text-gray-300 transition-colors">
               Privacy Policy
             </Link>
             <Link href="/terms" className="hover:text-gray-300 transition-colors">
-              Terms &amp; Conditions
+              Terms of Service
             </Link>
-            <span className="text-gray-600">•</span>
+            <span className="text-gray-600 hidden sm:inline">•</span>
             <span className="text-gray-400">Strict Confidentiality Guarantee</span>
           </div>
         </div>

@@ -2,26 +2,31 @@ import type { Metadata } from "next";
 import HomeContent from "./HomeContent";
 
 export const metadata: Metadata = {
-  title: "Trans Equality Trust (TET) | Protecting Transgender Rights in Sri Lanka",
-  description: "Dedicated to protecting the safety, legal rights, and well-being of over 5,000 transgender individuals in Sri Lanka through systemic advocacy, crisis aid, and social enterprise.",
+  title: "Abhimani Women's Collective (AWC) | Sri Lanka",
+  description:
+    "A survivor-led organisation advocating for the rights, safety, bodily autonomy, and wellbeing of female and transgender sex workers across Sri Lanka.",
   keywords: [
+    "Abhimani Women's Collective",
+    "AWC Sri Lanka",
+    "Sex worker rights Sri Lanka",
     "Transgender rights Sri Lanka",
-    "Trans Equality Trust",
-    "TET Sri Lanka",
-    "LGBTQ+ support Colombo",
-    "Legal aid for trans community",
+    "Survivor-led advocacy Colombo",
+    "Decriminalisation Sri Lanka",
+    "Emergency legal bail fund",
+    "Human rights NGO Sri Lanka",
   ],
   openGraph: {
-    title: "Trans Equality Trust (TET) | Sri Lanka",
-    description: "Protecting the rights, safety, and well-being of the transgender community through advocacy and support.",
-    url: "https://transequalitytrust.lk",
-    siteName: "Trans Equality Trust",
+    title: "Abhimani Women's Collective (AWC) | Sri Lanka",
+    description:
+      "Standing with sex workers, every step of the way. Frontline legal aid, safe transitional housing, and survivor-led advocacy across Sri Lanka.",
+    url: "https://awc.lk",
+    siteName: "Abhimani Women's Collective",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80",
+        url: "/images/Hero.jpeg",
         width: 1200,
         height: 630,
-        alt: "Trans Equality Trust Advocacy",
+        alt: "Abhimani Women's Collective Community Solidarity",
       },
     ],
     locale: "en_LK",
@@ -29,12 +34,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Trans Equality Trust (TET) | Sri Lanka",
-    description: "Protecting the rights, safety, and well-being of the transgender community.",
-    images: ["https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80"],
+    title: "Abhimani Women's Collective (AWC) | Sri Lanka",
+    description:
+      "Standing with sex workers, every step of the way. Survivor-led frontline advocacy, emergency bail, and healthcare across Sri Lanka.",
+    images: ["/images/Hero.jpeg"],
   },
   alternates: {
-    canonical: "https://transequalitytrust.lk",
+    canonical: "https://awc.lk",
   },
 };
 
@@ -42,19 +48,23 @@ export default function Page() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NGO",
-    "name": "Trans Equality Trust",
-    "alternateName": "TET Sri Lanka",
-    "url": "https://transequalitytrust.lk",
-    "logo": "https://transequalitytrust.lk/logo.png",
-    "description": "Protecting the rights, safety, and well-being of the transgender community in Sri Lanka.",
-    "address": {
+    name: "Abhimani Women's Collective",
+    alternateName: "AWC Sri Lanka",
+    url: "https://awc.lk",
+    logo: "https://awc.lk/images/logo.jpeg",
+    description:
+      "A survivor-led organisation advocating for the rights, safety, and wellbeing of female and transgender sex workers across Sri Lanka.",
+    address: {
       "@type": "PostalAddress",
-      "addressLocality": "Colombo 05",
-      "addressCountry": "LK"
+      addressLocality: "Colombo",
+      addressCountry: "LK",
     },
-    "sameAs": [
-      "https://www.facebook.com/share/12G6Xq5jZ15/"
-    ]
+    telephone: "+94771234567",
+    email: "info@awc.lk",
+    sameAs: [
+      "https://www.facebook.com/share/12G6Xq5jZ15/",
+      "https://instagram.com",
+    ],
   };
 
   return (
