@@ -1,17 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 
-interface WhatsAppButtonProps {
-  phoneNumber?: string; 
-  message?: string;
-}
+export default function WhatsAppButton() {
+  const { t } = useLanguage();
+  const [inPreviewFrame, setInPreviewFrame] = useState(false);
 
-export default function WhatsAppButton({
-  phoneNumber = "94771234567", 
-  message = "Hello Trans Equality Trust, I would like more information.",
-}: WhatsAppButtonProps) {
+  useEffect(() => {
+    setInPreviewFrame(window.self !== window.top);
+  }, []);
+
+  const phoneNumber = t("whatsapp_phone", "94771234567").replace(/[^0-9]/g, "");
+  const message = t(
+    "whatsapp_message",
+    "Hello Abhimani Women's Collective, I would like more information.",
+  );
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  if (inPreviewFrame) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-center justify-center">
@@ -24,7 +31,6 @@ export default function WhatsAppButton({
         aria-label="Chat on WhatsApp"
         className="relative group w-14 h-14 md:w-16 md:h-16 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center shadow-lg shadow-[#25D366]/40 hover:shadow-xl hover:shadow-[#25D366]/50 transition-all duration-300 hover:scale-110 active:scale-95"
       >
-        {/* WhatsApp Icon */}
         <svg
           className="w-8 h-8 fill-current transition-transform group-hover:scale-105"
           viewBox="0 0 24 24"

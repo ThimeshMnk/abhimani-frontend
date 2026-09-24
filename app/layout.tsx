@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main className="w-full">{children}</main>
           <Footer />
-          <WhatsAppButton phoneNumber="94771234567" />
+          <WhatsAppButton />
         </LanguageProvider>
       </body>
     </html>

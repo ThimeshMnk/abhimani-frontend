@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { pickLang, usePageCards } from "../lib/pageCards";
+import { usePreviewScroll } from "../lib/usePreviewScroll";
 
 const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, "");
 
@@ -17,8 +19,10 @@ const fadeInUp: Variants = {
 };
 
 export default function ContactPage() {
-  const { t, getAsset, getAssetUrl, isPreview } = useLanguage();
+  const { t, getAsset, getAssetUrl, isPreview, locale } = useLanguage();
+  const infoCards = usePageCards("contact_info");
   const resolveAsset = getAsset || getAssetUrl;
+  usePreviewScroll();
 
   // Form State
   const [name, setName] = useState("");
@@ -28,26 +32,18 @@ export default function ContactPage() {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [receiptRef, setReceiptRef] = useState<string | null>(null);
-
-  // Position-based scroll listener from admin
-  useEffect(() => {
-    const handleScrollMessage = (event: MessageEvent) => {
-      if (event.data?.type === "AWC_SCROLL_TO_SECTION" || event.data?.type === "TET_SCROLL_TO_SECTION") {
-        const { sectionId } = event.data;
-        const target = document.getElementById(sectionId);
-        if (target) {
-          const targetY = target.getBoundingClientRect().top + window.pageYOffset - 90;
-          window.scrollTo({ top: targetY, behavior: "smooth" });
-        }
-      }
-    };
-    window.addEventListener("message", handleScrollMessage);
-    return () => window.removeEventListener("message", handleScrollMessage);
-  }, []);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [suggestion, setSuggestion] = useState("");
+  const [suggestionName, setSuggestionName] = useState("");
+  const [suggestionEmail, setSuggestionEmail] = useState("");
+  const [suggestionRef, setSuggestionRef] = useState<string | null>(null);
+  const [suggestionError, setSuggestionError] = useState<string | null>(null);
+  const [isSuggesting, setIsSuggesting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setFormError(null);
 
     try {
       const res = await fetch(`${API_BASE}/api/contact`, {
@@ -57,6 +53,7 @@ export default function ContactPage() {
           name,
           email,
           phone,
+          subject: inquiryType,
           inquiry_type: inquiryType,
           message,
         }),
@@ -65,15 +62,14 @@ export default function ContactPage() {
       if (!res.ok) throw new Error("Submission failed");
 
       const data = await res.json();
-      setReceiptRef(data.reference || `AWC-${Math.floor(100000 + Math.random() * 900000)}`);
+      setReceiptRef(data.reference);
       setName("");
       setEmail("");
       setPhone("");
       setMessage("");
     } catch (err) {
       console.error(err);
-      // Friendly fallback reference if backend is offline
-      setReceiptRef(`AWC-${Math.floor(100000 + Math.random() * 900000)}`);
+      setFormError("We could not send your message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -116,7 +112,7 @@ export default function ContactPage() {
       {/* ========================================================================= */}
       {/* 2. 24/7 EMERGENCY CRISIS & BAIL RESPONSE BANNER */}
       {/* ========================================================================= */}
-      {/* <section id="contact-crisis" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-16">
+      <section id="contact-crisis" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-16">
         <div className="bg-[#181818] rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-16 text-white relative overflow-hidden shadow-2xl border border-gray-800">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#E84E2D]/10 rounded-full blur-[100px] -mr-40 -mt-40 pointer-events-none"></div>
 
@@ -141,11 +137,11 @@ export default function ContactPage() {
 
             <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end gap-3 w-full sm:w-auto">
               <a
-                href="tel:+94771234567"
+                href={`tel:${t("ct_crisis_phone", "+94771234567").replace(/\s+/g, "")}`}
                 className="w-full sm:w-auto bg-[#E84E2D] hover:bg-[#d13d1d] text-white px-8 py-4 rounded-full font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-3 shadow-md hover:scale-105 active:scale-95"
               >
                 <span>📞 Hotline:</span>
-                <span>+94 77 123 4567</span>
+                <span>{t("ct_crisis_phone", "+94 77 123 4567")}</span>
               </a>
 
               <a
@@ -164,45 +160,56 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* ========================================================================= */}
       {/* 3. CONTACT INFO CHANNELS */}
       {/* ========================================================================= */}
-      {/* <section id="contact-cards" className="scroll-mt-28 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
-        {[
-          {
-            id: 1,
-            icon: "⚖️",
-            label: "Emergency & Legal Aid",
-            val: "legal@awc.lk",
-            sub: "Rapid-response bail and court representation desk.",
-            link: "mailto:legal@awc.lk",
-          },
-          {
-            id: 2,
-            icon: "✉️",
-            label: "General & Institutional",
-            val: "info@awc.lk",
-            sub: "Donations, corporate CSR, and research partnerships.",
-            link: "mailto:info@awc.lk",
-          },
-          {
-            id: 3,
-            icon: "📍",
-            label: "Drop-in Safe Hub",
-            val: "Colombo, Sri Lanka",
-            sub: "By appointment or emergency peer intake.",
-            link: "#contact-form",
-          },
-        ].map((item) => (
+      <section id="contact-cards" className="scroll-mt-28 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
+        {(infoCards.length
+          ? infoCards.map((card, index) => ({
+              id: card.id,
+              icon: card.icon || ["⚖️", "✉️", "📍"][index] || "✉️",
+              label: pickLang(card.tag, locale),
+              val: pickLang(card.value, locale) || pickLang(card.title, locale),
+              sub: pickLang(card.description, locale),
+              link: card.link || "#contact-form",
+            }))
+          : [
+              {
+                id: 1,
+                icon: "⚖️",
+                label: t("ct_g1_label", "Emergency & Legal Aid"),
+                val: t("ct_g1_val", "legal@awc.lk"),
+                sub: t("ct_g1_sub", "Rapid-response bail and court representation desk."),
+                link: "mailto:legal@awc.lk",
+              },
+              {
+                id: 2,
+                icon: "✉️",
+                label: t("ct_g2_label", "General & Institutional"),
+                val: t("ct_g2_val", "info@awc.lk"),
+                sub: t("ct_g2_sub", "Donations, corporate CSR, and research partnerships."),
+                link: "mailto:info@awc.lk",
+              },
+              {
+                id: 3,
+                icon: "📍",
+                label: t("ct_g3_label", "Drop-in Safe Hub"),
+                val: t("ct_g3_val", "Colombo, Sri Lanka"),
+                sub: t("ct_g3_sub", "By appointment or emergency peer intake."),
+                link: "#contact-form",
+              },
+            ]
+        ).map((item) => (
           <motion.div
             key={item.id}
+            id={`contact-card-${item.id}`}
             initial="initial"
             whileInView="whileInView"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="bg-white p-8 rounded-3xl border border-gray-200/80 shadow-xs hover:border-[#58214D] hover:shadow-md transition-all flex flex-col justify-between"
+            className="scroll-mt-28 bg-white p-8 rounded-3xl border border-gray-200/80 shadow-xs hover:border-[#58214D] hover:shadow-md transition-all flex flex-col justify-between"
           >
             <div>
               <span className="w-10 h-10 rounded-xl bg-orange-50 text-[#E84E2D] flex items-center justify-center text-lg mb-4">
@@ -227,7 +234,7 @@ export default function ContactPage() {
             </a>
           </motion.div>
         ))}
-      </section> */}
+      </section>
 
       {/* ========================================================================= */}
       {/* 4. FORM SECTION */}
@@ -350,6 +357,9 @@ export default function ContactPage() {
                   ></textarea>
                 </div>
 
+                {formError && (
+                  <p className="text-red-600 text-xs font-semibold">{formError}</p>
+                )}
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
@@ -384,6 +394,86 @@ export default function ContactPage() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      <section id="suggestions" className="max-w-7xl mx-auto px-6 pb-24">
+        <div className="bg-white rounded-3xl border border-gray-200/80 shadow-sm p-8 sm:p-12 max-w-3xl">
+          <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
+            Suggestions
+          </span>
+          <h3 className="font-serif text-3xl font-bold text-[#141414] mb-4">
+            Share an idea with AWC
+          </h3>
+          <p className="text-gray-600 text-sm mb-6">
+            This form is stored separately from Contact Us messages so staff can review community ideas on their own.
+          </p>
+          {suggestionRef ? (
+            <p className="text-emerald-700 text-sm font-semibold">
+              Thank you. Your suggestion reference is {suggestionRef}.
+            </p>
+          ) : (
+            <form
+              className="space-y-4"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setIsSuggesting(true);
+                setSuggestionError(null);
+                try {
+                  const res = await fetch(`${API_BASE}/api/suggestions`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", Accept: "application/json" },
+                    body: JSON.stringify({
+                      name: suggestionName,
+                      email: suggestionEmail,
+                      message: suggestion,
+                    }),
+                  });
+                  if (!res.ok) throw new Error("failed");
+                  const data = await res.json();
+                  setSuggestionRef(data.reference);
+                  setSuggestion("");
+                  setSuggestionName("");
+                  setSuggestionEmail("");
+                } catch {
+                  setSuggestionError("We could not send your suggestion. Please try again.");
+                } finally {
+                  setIsSuggesting(false);
+                }
+              }}
+            >
+              <input
+                type="text"
+                value={suggestionName}
+                onChange={(e) => setSuggestionName(e.target.value)}
+                placeholder="Your name (optional)"
+                className="w-full border-b-2 border-gray-200 py-3 outline-none text-sm"
+              />
+              <input
+                type="email"
+                value={suggestionEmail}
+                onChange={(e) => setSuggestionEmail(e.target.value)}
+                placeholder="Email (optional)"
+                className="w-full border-b-2 border-gray-200 py-3 outline-none text-sm"
+              />
+              <textarea
+                required
+                rows={4}
+                value={suggestion}
+                onChange={(e) => setSuggestion(e.target.value)}
+                placeholder="Your suggestion"
+                className="w-full border-b-2 border-gray-200 py-3 outline-none text-sm resize-none"
+              />
+              {suggestionError && <p className="text-red-600 text-xs">{suggestionError}</p>}
+              <button
+                type="submit"
+                disabled={isSuggesting}
+                className="bg-[#58214D] text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest disabled:opacity-50"
+              >
+                {isSuggesting ? "Sending..." : "Send suggestion"}
+              </button>
+            </form>
+          )}
         </div>
       </section>
 

@@ -1,12 +1,33 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "../context/LanguageContext";
 
+const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, "");
+
 export default function Footer() {
   const { t, getAsset, getAssetUrl, isPreview, data } = useLanguage();
+  const [subscribeEmail, setSubscribeEmail] = useState("");
+  const [subscribeStatus, setSubscribeStatus] = useState<string | null>(null);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubscribeStatus(null);
+    try {
+      const res = await fetch(`${API_BASE}/api/subscribers`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ email: subscribeEmail }),
+      });
+      if (!res.ok) throw new Error("Subscribe failed");
+      setSubscribeEmail("");
+      setSubscribeStatus("subscribed");
+    } catch {
+      setSubscribeStatus("error");
+    }
+  };
   const resolveAsset = getAsset || getAssetUrl;
 
   // Uses admin-uploaded logo, falling back to public/images/logo.jpeg
@@ -35,7 +56,7 @@ export default function Footer() {
     },
     {
       name: "WhatsApp",
-      url: "https://wa.me/94771234567",
+      url: t("footer_wa_url", `https://wa.me/${t("whatsapp_phone", "94771234567")}`),
       icon: (
         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
@@ -94,7 +115,7 @@ export default function Footer() {
           {/* Column 2: About & Organization (2.5 Cols) */}
           <div className="lg:col-span-2">
             <h4 className="text-white font-bold text-xs uppercase tracking-[0.2em] mb-5">
-              Organization
+              {t("footer_head_org", "Organization")}
             </h4>
             <ul className="space-y-3 text-xs text-gray-400">
               <li>
@@ -102,7 +123,7 @@ export default function Footer() {
                   href="/about"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  About Us
+                  {t("footer_org_about", "About Us")}
                 </Link>
               </li>
               <li>
@@ -110,7 +131,7 @@ export default function Footer() {
                   href="/about#who-we-are"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Who We Are
+                  {t("footer_org_who", "Who We Are")}
                 </Link>
               </li>
               <li>
@@ -118,7 +139,7 @@ export default function Footer() {
                   href="/about#our-story"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Our Story &amp; Origins
+                  {t("footer_org_story", "Our Story & Origins")}
                 </Link>
               </li>
               <li>
@@ -126,7 +147,7 @@ export default function Footer() {
                   href="/about#vision-mission"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Vision &amp; Mission
+                  {t("footer_org_vision", "Vision & Mission")}
                 </Link>
               </li>
               <li>
@@ -134,7 +155,7 @@ export default function Footer() {
                   href="/about#values"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Our Core Values
+                  {t("footer_org_values", "Our Core Values")}
                 </Link>
               </li>
               <li>
@@ -142,7 +163,7 @@ export default function Footer() {
                   href="/contact"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Contact Us
+                  {t("footer_org_contact", "Contact Us")}
                 </Link>
               </li>
             </ul>
@@ -151,7 +172,7 @@ export default function Footer() {
           {/* Column 3: Frontline Work & Resources (2.5 Cols) */}
           <div className="lg:col-span-2">
             <h4 className="text-white font-bold text-xs uppercase tracking-[0.2em] mb-5">
-              Work &amp; Resources
+              {t("footer_head_init", "Work & Resources")}
             </h4>
             <ul className="space-y-3 text-xs text-gray-400">
               <li>
@@ -159,7 +180,7 @@ export default function Footer() {
                   href="/projects"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Our Work &amp; Programs
+                  {t("footer_work_programs", "Our Work & Programs")}
                 </Link>
               </li>
               <li>
@@ -167,7 +188,7 @@ export default function Footer() {
                   href="/shop"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Artisan Shop &amp; Products
+                  {t("footer_work_shop", "Artisan Shop & Products")}
                 </Link>
               </li>
               <li>
@@ -175,7 +196,7 @@ export default function Footer() {
                   href="/news"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  News &amp; Press Releases
+                  {t("footer_work_news", "News & Press Releases")}
                 </Link>
               </li>
               <li>
@@ -183,7 +204,7 @@ export default function Footer() {
                   href="/gallery"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Events &amp; Gallery
+                  {t("footer_work_gallery", "Events & Gallery")}
                 </Link>
               </li>
               <li>
@@ -191,7 +212,7 @@ export default function Footer() {
                   href="/resources"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Toolkits &amp; Publications
+                  {t("footer_work_resources", "Toolkits & Publications")}
                 </Link>
               </li>
               <li>
@@ -199,7 +220,7 @@ export default function Footer() {
                   href="/volunteer"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  Volunteer Registry
+                  {t("footer_work_volunteer", "Volunteer Registry")}
                 </Link>
               </li>
             </ul>
@@ -209,53 +230,84 @@ export default function Footer() {
           <div className="lg:col-span-4 bg-gradient-to-br from-[#1C181B] to-[#251A22] p-6 sm:p-7 rounded-3xl border border-gray-800 shadow-xl flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#E84E2D] block mb-2">
-                Emergency Mutual Aid
+                {t("footer_emergency_label", "Emergency Mutual Aid")}
               </span>
               <h4 className="font-serif text-lg font-bold text-white mb-2">
-                Support the Bail Relief Fund
+                {t("footer_emergency_title", t("footer_head_support", "Support the Bail Relief Fund"))}
               </h4>
               <p className="text-gray-400 text-xs mb-5 leading-relaxed">
-                100% of your contribution directly funds 24/7 paralegal
-                emergency police station accompaniment, court bail bonds, and
-                safe houses.
+                {t(
+                  "footer_emergency_text",
+                  t(
+                    "footer_support_text",
+                    "100% of your contribution directly funds 24/7 paralegal emergency police station accompaniment, court bail bonds, and safe houses.",
+                  ),
+                )}
               </p>
             </div>
 
             <div className="space-y-3">
               <Link
-                href="/donate"
+                href={t("footer_donate_url", "/donate")}
                 className="block w-full text-center bg-[#E84E2D] hover:bg-[#d13d1d] text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
-                Donate to Bail Relief
+                {t("footer_emergency_btn", t("btn_donate", "Donate to Bail Relief"))}
               </Link>
               <a
-                href="tel:+94771234567"
+                href={t("footer_helpline_tel", "tel:+94771234567")}
                 className="block w-full text-center bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-semibold py-2.5 rounded-xl border border-white/10 transition-colors"
               >
-                📞 24/7 Helpline: +94 77 123 4567
+                {t("footer_helpline_label", "📞 24/7 Helpline: +94 77 123 4567")}
               </a>
             </div>
           </div>
         </div>
 
+        <form onSubmit={handleSubscribe} className="mb-10 max-w-xl">
+          <p className="text-white text-xs font-bold uppercase tracking-widest mb-3">
+            {t("footer_subscribe_title", "Subscribe for updates")}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="email"
+              required
+              value={subscribeEmail}
+              onChange={(e) => setSubscribeEmail(e.target.value)}
+              placeholder="you@email.com"
+              className="flex-1 bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-xs text-white outline-none"
+            />
+            <button
+              type="submit"
+              className="bg-white text-[#141414] px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-widest"
+            >
+              {t("footer_subscribe_btn", "Subscribe")}
+            </button>
+          </div>
+          {subscribeStatus === "subscribed" && (
+            <p className="text-emerald-300 text-xs mt-2">You are subscribed.</p>
+          )}
+          {subscribeStatus === "error" && (
+            <p className="text-red-300 text-xs mt-2">Could not subscribe. Please try again.</p>
+          )}
+        </form>
+
         {/* Bottom Bar: Copyright & Policies */}
         <div className="pt-8 border-t border-gray-800/80 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
           <p>
-            © {new Date().getFullYear()} Abhimani Women&apos;s Collective (AWC)
-            Sri Lanka. All rights reserved.
+            {t("footer_copy", `© ${new Date().getFullYear()} Abhimani Women's Collective (AWC) Sri Lanka. All rights reserved.`)}
           </p>
           <div className="flex flex-wrap items-center gap-6">
             <Link
-              href="/privacy"
+              href={t("footer_privacy_url", "/privacy")}
               className="hover:text-gray-300 transition-colors"
             >
-              Privacy Policy
+              {t("footer_privacy", "Privacy Policy")}
             </Link>
             <Link
-              href="/terms"
+              href={t("footer_terms_url", "/terms")}
               className="hover:text-gray-300 transition-colors"
             >
-              Terms of Service
+              {t("footer_terms", "Terms of Service")}
             </Link>
             <span className="text-gray-600 hidden sm:inline">•</span>
             <span className="text-gray-400">

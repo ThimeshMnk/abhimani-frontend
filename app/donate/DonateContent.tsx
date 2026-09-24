@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { pickLang, usePageCards } from "../lib/pageCards";
+import { usePreviewScroll } from "../lib/usePreviewScroll";
 
 const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, "");
 
@@ -24,6 +26,8 @@ const donationTiers = [
 
 export default function DonatePage() {
   const { t, locale } = useLanguage();
+  const impactCards = usePageCards("donate_impact");
+  usePreviewScroll();
   
   // Selection State
   const [selectedAmount, setSelectedAmount] = useState("5000");
@@ -47,22 +51,6 @@ export default function DonatePage() {
       swift_code: string;
     };
   } | null>(null);
-
-  // Cross-origin scroll listener
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data?.type === "AWC_SCROLL_TO_SECTION" || event.data?.type === "TET_SCROLL_TO_SECTION") {
-        const { sectionId } = event.data;
-        const target = document.getElementById(sectionId);
-        if (target) {
-          const targetY = target.getBoundingClientRect().top + window.pageYOffset - 90;
-          window.scrollTo({ top: targetY, behavior: "smooth" });
-        }
-      }
-    };
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, []);
 
   const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomAmount(e.target.value);
@@ -104,20 +92,8 @@ export default function DonatePage() {
       const data = await res.json();
       setReceipt(data);
     } catch (err) {
-      console.warn("Backend offline, providing local reference:", err);
-      // Resilient fallback for preview/demo mode
-      setReceipt({
-        reference: `AWC-SOLIDARITY-${Math.floor(100000 + Math.random() * 900000)}`,
-        amount: parseFloat(finalAmount),
-        payment_method: paymentMethod,
-        bank_details: {
-          bank_name: "Commercial Bank of Ceylon",
-          account_name: "Abhimani Women's Collective",
-          account_number: "8009234120",
-          branch: "Colombo Central Branch",
-          swift_code: "CCEYLKX",
-        }
-      });
+      console.warn("Donation submit failed:", err);
+      alert("We could not record this donation. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -142,9 +118,9 @@ export default function DonatePage() {
           </span>
 
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-4 tracking-tight leading-[1.12]">
-            Power Freedom. <br />
+            {t("dn_hero_title1", "Power Freedom.")} <br />
             <span className="text-[#58214D] italic font-normal">
-              Defend Bodily Dignity.
+              {t("dn_hero_title2", "Defend Bodily Dignity.")}
             </span>
           </h1>
 
@@ -416,7 +392,7 @@ export default function DonatePage() {
               {t("dn_imp_label", "Accountability in Action")}
             </span>
             <h3 className="font-serif text-3xl md:text-5xl font-bold text-[#141414] mb-3">
-              Where Your Donation Goes
+              {t("dn_imp_title", "Where Your Donation Goes")}
             </h3>
             <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
               Every rupee donated is audited and allocated directly into our frontline legal defense, emergency safe houses, and community healthcare.
@@ -424,29 +400,38 @@ export default function DonatePage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            {[
-              {
-                id: 1,
-                val: "45%",
-                title: "Emergency Bail & Legal Defense",
-                desc: "Immediate station accompaniment, attorney honorariums, and bail funds preventing arbitrary lockups under vagrancy laws.",
-              },
-              {
-                id: 2,
-                val: "35%",
-                title: "Safe Houses & Healthcare",
-                desc: "Emergency transitional beds, daily nutritional rations, and voluntary sexual and reproductive health screenings.",
-              },
-              {
-                id: 3,
-                val: "20%",
-                title: "Decriminalisation Advocacy",
-                desc: "Parliamentary law reform submissions, public awareness campaigns, and community legal literacy handbooks.",
-              },
-            ].map((item) => (
+            {(impactCards.length
+              ? impactCards.map((card) => ({
+                  id: card.id,
+                  val: pickLang(card.value, locale),
+                  title: pickLang(card.title, locale),
+                  desc: pickLang(card.description, locale),
+                }))
+              : [
+                  {
+                    id: 1,
+                    val: t("dn_i1_val", "45%"),
+                    title: t("dn_i1_title", "Emergency Bail & Legal Defense"),
+                    desc: t("dn_i1_desc", "Immediate station accompaniment, attorney honorariums, and bail funds preventing arbitrary lockups under vagrancy laws."),
+                  },
+                  {
+                    id: 2,
+                    val: t("dn_i2_val", "35%"),
+                    title: t("dn_i2_title", "Safe Houses & Healthcare"),
+                    desc: t("dn_i2_desc", "Emergency transitional beds, daily nutritional rations, and voluntary sexual and reproductive health screenings."),
+                  },
+                  {
+                    id: 3,
+                    val: t("dn_i3_val", "20%"),
+                    title: t("dn_i3_title", "Decriminalisation Advocacy"),
+                    desc: t("dn_i3_desc", "Parliamentary law reform submissions, public awareness campaigns, and community legal literacy handbooks."),
+                  },
+                ]
+            ).map((item) => (
               <div 
-                key={item.id} 
-                className="bg-[#FAF8F5] p-8 rounded-3xl border border-gray-200/70 shadow-xs hover:border-[#58214D] transition-all space-y-3"
+                key={item.id}
+                id={`donate-impact-${item.id}`}
+                className="scroll-mt-28 bg-[#FAF8F5] p-8 rounded-3xl border border-gray-200/70 shadow-xs hover:border-[#58214D] transition-all space-y-3"
               >
                 <span className="font-serif text-5xl font-bold text-[#E84E2D] block">
                   {item.val}

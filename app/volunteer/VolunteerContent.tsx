@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { pickLang, usePageCards } from "../lib/pageCards";
+import { usePreviewScroll } from "../lib/usePreviewScroll";
 
 const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, "");
 
@@ -41,13 +43,37 @@ const volunteerTracks = [
 ];
 
 export default function VolunteerContent() {
-  const { t, getAsset, getAssetUrl, isPreview } = useLanguage();
+  const { t, getAsset, getAssetUrl, isPreview, locale } = useLanguage();
   const resolveAsset = getAsset || getAssetUrl;
+  usePreviewScroll();
+  const roleCards = usePageCards("volunteer_roles");
+  const tracks = roleCards.length
+    ? roleCards.map((card, idx) => ({
+        icon: card.icon || volunteerTracks[idx]?.icon || "🤝",
+        title: pickLang(card.title, locale, volunteerTracks[idx]?.title || ""),
+        desc: pickLang(card.description, locale, volunteerTracks[idx]?.desc || ""),
+        tag: pickLang(card.tag, locale),
+      }))
+    : [1, 2, 3, 4].map((idx) => {
+        const fallback = volunteerTracks[idx - 1];
+        return {
+          icon: t(`v_youth_${idx}_icon`, fallback.icon),
+          title: t(`v_youth_${idx}_title`, fallback.title),
+          desc: t(`v_youth_${idx}_desc`, fallback.desc),
+          tag: t(`v_youth_${idx}_tag`, ""),
+        };
+      });
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [track, setTrack] = useState(volunteerTracks[0].title);
+
+  useEffect(() => {
+    if (tracks.length && !tracks.some((role) => role.title === track)) {
+      setTrack(tracks[0].title);
+    }
+  }, [tracks, track]);
   const [availability, setAvailability] = useState("Flexible / On-Call");
   const [experience, setExperience] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,14 +100,14 @@ export default function VolunteerContent() {
       if (!res.ok) throw new Error("Submission error");
 
       const data = await res.json();
-      setReference(data.reference || `VOL-${Math.floor(100000 + Math.random() * 900000)}`);
+      setReference(data.reference);
       setName("");
       setEmail("");
       setPhone("");
       setExperience("");
     } catch {
-      // Fallback reference for local testing
-      setReference(`AWC-VOL-${Math.floor(100000 + Math.random() * 900000)}`);
+      setReference(null);
+      alert("We could not send your volunteer application. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -91,31 +117,34 @@ export default function VolunteerContent() {
     <div className="w-full bg-[#FAF8F5] text-slate-800 selection:bg-[#FBE8E3] selection:text-[#E84E2D] min-h-screen">
       
       {/* 1. HERO */}
-      <section className="py-16 md:py-24 px-6 bg-white border-b border-gray-200/70">
+      <section id="volunteer-hero" className="scroll-mt-28 py-16 md:py-24 px-6 bg-white border-b border-gray-200/70">
         <div className="max-w-7xl mx-auto text-center max-w-3xl">
           <motion.div initial="initial" whileInView="whileInView" viewport={{ once: true }} variants={fadeInUp}>
             <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] px-4 py-1.5 bg-orange-100/80 rounded-full inline-block mb-4">
-              Community Solidarity • Join Our Ranks
+              {t("v_hero_label", "Community Solidarity • Join Our Ranks")}
             </span>
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-5 tracking-tight leading-[1.12]">
-              Stand With Us. <br />
-              <span className="text-[#58214D] italic font-normal">Volunteer Your Skills.</span>
+              {t("v_hero_title1", "Stand With Us.")} <br />
+              <span className="text-[#58214D] italic font-normal">{t("v_hero_title2", "Volunteer Your Skills.")}</span>
             </h1>
             <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl mx-auto mb-6">
-              Frontline justice requires a dedicated network of allies. Whether you can offer legal expertise, medical care, digital design, or crisis mutual aid, your solidarity directly strengthens our survivor-led collective.
+              {t(
+                "v_hero_desc",
+                "Frontline justice requires a dedicated network of allies. Whether you can offer legal expertise, medical care, digital design, or crisis mutual aid, your solidarity directly strengthens our survivor-led collective.",
+              )}
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-xs font-bold uppercase tracking-wider">
               <a
-                href="#apply-form"
+                href="#volunteer-form"
                 className="bg-[#58214D] hover:bg-[#45183c] text-white px-7 py-3.5 rounded-full transition-all shadow-sm"
               >
-                Apply As A Volunteer
+                {t("v_hero_btn1", "Apply As A Volunteer")}
               </a>
               <Link
                 href="/contact"
                 className="bg-white border border-gray-300 hover:border-gray-800 text-gray-800 px-7 py-3.5 rounded-full transition-all"
               >
-                Inquire via Contact Desk
+                {t("v_hero_btn2", "Inquire via Contact Desk")}
               </Link>
             </div>
           </motion.div>
@@ -123,30 +152,40 @@ export default function VolunteerContent() {
       </section>
 
       {/* 2. VOLUNTEER TRACKS GRID */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
+      <section id="volunteer-youth" className="scroll-mt-28 py-20 px-6 max-w-7xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
-            Where You Can Support
+            {t("v_youth_label", "Where You Can Support")}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#141414]">
-            Volunteer Pathways &amp; Roles
+            {t("v_youth_title", "Volunteer Pathways & Roles")}
           </h2>
+          <p className="text-gray-600 text-sm mt-3">
+            {t("v_youth_desc", "")}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {volunteerTracks.map((role, idx) => (
+          {tracks.map((role, idx) => (
+
             <motion.div
               key={idx}
+              id={`volunteer-role-${idx + 1}`}
               initial="initial"
               whileInView="whileInView"
               viewport={{ once: true }}
               variants={fadeInUp}
-              className="p-8 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:border-[#58214D] hover:shadow-md transition-all flex items-start gap-5"
+              className="scroll-mt-28 p-8 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:border-[#58214D] hover:shadow-md transition-all flex items-start gap-5"
             >
               <span className="text-3xl p-3 bg-[#FAF8F5] rounded-2xl border border-gray-100 flex-shrink-0">
                 {role.icon}
               </span>
               <div>
+                {role.tag ? (
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#E84E2D] mb-1">
+                    {role.tag}
+                  </p>
+                ) : null}
                 <h3 className="font-serif font-bold text-xl text-[#141414] mb-2">
                   {role.title}
                 </h3>
@@ -160,18 +199,18 @@ export default function VolunteerContent() {
       </section>
 
       {/* 3. APPLICATION FORM */}
-      <section id="apply-form" className="scroll-mt-24 py-16 px-6 max-w-4xl mx-auto pb-24">
+      <section id="volunteer-form" className="scroll-mt-28 py-16 px-6 max-w-4xl mx-auto pb-24">
         <div className="bg-white rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-16 shadow-xl border border-gray-200/80">
           
           <div className="text-center max-w-xl mx-auto mb-10">
             <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
-              Application Desk
+              {t("v_form_tag", "Application Desk")}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#141414]">
-              Volunteer Registry Form
+              {t("v_form_title", "Volunteer Registry Form")}
             </h2>
             <p className="text-gray-600 text-xs sm:text-sm mt-2">
-              All applications are kept strictly confidential and reviewed by our volunteer coordinator.
+              {t("v_form_desc", "All applications are kept strictly confidential and reviewed by our volunteer coordinator.")}
             </p>
           </div>
 
@@ -202,7 +241,7 @@ export default function VolunteerContent() {
                   Select Your Volunteer Track *
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {volunteerTracks.map((role) => (
+                  {tracks.map((role) => (
                     <button
                       type="button"
                       key={role.title}
@@ -304,7 +343,7 @@ export default function VolunteerContent() {
                   disabled={isSubmitting}
                   className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shadow-md cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmitting ? "Submitting..." : "Submit Volunteer Application"}
+                  {isSubmitting ? "Submitting..." : t("v_form_btn", "Submit Volunteer Application")}
                 </button>
               </div>
 
@@ -313,6 +352,21 @@ export default function VolunteerContent() {
 
         </div>
       </section>
+
+      {(t("v_footer_quote", "") || t("v_footer_cite", "")) && (
+        <section id="volunteer-quote" className="scroll-mt-28 px-6 pb-20">
+          <blockquote className="max-w-3xl mx-auto text-center">
+            <p className="font-serif text-2xl text-[#141414] italic">
+              {t("v_footer_quote", "")}
+            </p>
+            {t("v_footer_cite", "") && (
+              <cite className="block mt-4 text-sm text-gray-500 not-italic">
+                {t("v_footer_cite", "")}
+              </cite>
+            )}
+          </blockquote>
+        </section>
+      )}
 
     </div>
   );

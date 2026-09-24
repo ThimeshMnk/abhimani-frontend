@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { pickLang, usePageCards } from "../lib/pageCards";
+import { usePreviewScroll } from "../lib/usePreviewScroll";
 
 const fadeInUp: Variants = {
   initial: { opacity: 0, y: 25 },
@@ -16,31 +18,10 @@ const fadeInUp: Variants = {
 };
 
 export default function AboutPage() {
-  const { t, getAsset, getAssetUrl, isPreview } = useLanguage();
+  const { t, getAsset, getAssetUrl, isPreview, locale } = useLanguage();
+  const valueCards = usePageCards("about_values");
   const resolveAsset = getAsset || getAssetUrl;
-
-  // Handles smooth hash scrolling from navbar or jump-links
-  useEffect(() => {
-    const handleScrollMessage = (event: MessageEvent) => {
-      if (event.data?.type === "AWC_SCROLL_TO_SECTION" || event.data?.type === "TET_SCROLL_TO_SECTION") {
-        const { sectionId } = event.data;
-        if (sectionId) {
-          const targetElement = document.getElementById(sectionId);
-          if (targetElement) {
-            const rect = targetElement.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            window.scrollTo({
-              top: rect.top + scrollTop - 90,
-              behavior: "smooth",
-            });
-          }
-        }
-      }
-    };
-
-    window.addEventListener("message", handleScrollMessage);
-    return () => window.removeEventListener("message", handleScrollMessage);
-  }, []);
+  usePreviewScroll();
 
   return (
     <div className="w-full bg-[#FAF8F5] text-slate-800 selection:bg-[#FBE8E3] selection:text-[#E84E2D] overflow-x-hidden scroll-smooth">
@@ -68,13 +49,16 @@ export default function AboutPage() {
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-[60px] font-bold text-[#141414] leading-[1.08] tracking-tight mb-6">
-              Built on Sisterhood. <br />
-              <span className="text-[#58214D]">Governed by Truth.</span> <br />
-              <span className="text-[#E84E2D] font-normal italic font-serif">Unapologetically Us.</span>
+              {t("about_hero_title_1", t("about_hero_title", "Built on Sisterhood."))} <br />
+              <span className="text-[#58214D]">{t("about_hero_title_2", "Governed by Truth.")}</span> <br />
+              <span className="text-[#E84E2D] font-normal italic font-serif">{t("about_hero_title_3", "Unapologetically Us.")}</span>
             </h1>
 
             <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
-              We are Sri Lanka&apos;s leading grassroots collective founded and governed directly by female and transgender sex workers. We transform systemic isolation into organized resilience, frontline legal defence, and uncompromised dignity.
+              {t(
+                "about_hero_description",
+                "We are Sri Lanka's leading grassroots collective founded and governed directly by female and transgender sex workers. We transform systemic isolation into organized resilience, frontline legal defence, and uncompromised dignity.",
+              )}
             </p>
 
             {/* Quick-Jump In-Page Navigator */}
@@ -496,39 +480,52 @@ export default function AboutPage() {
           </span>
         
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#141414] mb-16">
-            Our Core Values
+            {t("about_values_main_title", "Our Core Values")}
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                title: "Bodily Autonomy",
-                desc: "The unalienable right of every woman and transgender individual to make independent choices regarding their body, labour, and safety.",
-                icon: "🌿",
-              },
-              {
-                title: "Uncompromising Dignity",
-                desc: "No individual’s right to security, health, and fair legal treatment should ever depend on gender, occupation, or background.",
-                icon: "⚖️",
-              },
-              {
-                title: "Fierce Sisterhood",
-                desc: "Unbreakable solidarity that protects each member against police intimidation, social isolation, and institutional violence.",
-                icon: "🤝",
-              },
-              {
-                title: "Radical Accountability",
-                desc: "Transparent, survivor-centered stewardship of all resources, always remaining loyal first and foremost to our community.",
-                icon: "🤍",
-              },
-            ].map((val, idx) => (
+            {(valueCards.length
+              ? valueCards.map((card, index) => ({
+                  id: `about-value-${card.id}`,
+                  title: pickLang(card.title, locale),
+                  desc: pickLang(card.description, locale),
+                  icon: card.icon || ["🌿", "⚖️", "🤝", "🤍"][index] || "🌿",
+                }))
+              : [
+                  {
+                    id: "about-value-1",
+                    title: t("about_value_1_title", "Bodily Autonomy"),
+                    desc: t("about_value_1_text", "The unalienable right of every woman and transgender individual to make independent choices regarding their body, labour, and safety."),
+                    icon: "🌿",
+                  },
+                  {
+                    id: "about-value-2",
+                    title: t("about_value_2_title", "Uncompromising Dignity"),
+                    desc: t("about_value_2_text", "No individual’s right to security, health, and fair legal treatment should ever depend on gender, occupation, or background."),
+                    icon: "⚖️",
+                  },
+                  {
+                    id: "about-value-3",
+                    title: t("about_value_3_title", "Fierce Sisterhood"),
+                    desc: t("about_value_3_text", "Unbreakable solidarity that protects each member against police intimidation, social isolation, and institutional violence."),
+                    icon: "🤝",
+                  },
+                  {
+                    id: "about-value-4",
+                    title: t("about_value_4_title", "Radical Accountability"),
+                    desc: t("about_value_4_text", "Transparent, survivor-centered stewardship of all resources, always remaining loyal first and foremost to our community."),
+                    icon: "🤍",
+                  },
+                ]
+            ).map((val) => (
               <motion.div
-                key={idx}
+                key={val.id}
+                id={val.id}
                 variants={fadeInUp}
                 initial="initial"
                 whileInView="whileInView"
                 viewport={{ once: true }}
-                className="bg-[#FAF8F5] p-8 rounded-3xl border border-gray-200/80 shadow-xs flex flex-col items-center hover:border-[#E84E2D] hover:shadow-md transition-all"
+                className="scroll-mt-28 bg-[#FAF8F5] p-8 rounded-3xl border border-gray-200/80 shadow-xs flex flex-col items-center hover:border-[#E84E2D] hover:shadow-md transition-all"
               >
                 <div className="w-12 h-12 rounded-2xl bg-white text-2xl flex items-center justify-center mb-6 shadow-xs border border-gray-100">
                   {val.icon}

@@ -377,6 +377,21 @@ function ProgramDetailModal({
 // Main Our Work Page
 export default function WorkPage() {
   const [selectedProgram, setSelectedProgram] = useState<ProgramItem | null>(null);
+  const { t, getAsset } = useLanguage();
+  const programs = defaultPrograms.map((program) => ({
+    ...program,
+    cat: t(`pj_${program.id}_cat`, program.cat),
+    title1: t(`pj_${program.id}_title1`, program.title1),
+    title2: t(`pj_${program.id}_title2`, program.title2),
+    desc: t(`pj_${program.id}_desc`, program.desc),
+    longDesc: t(`pj_${program.id}_long_desc`, program.longDesc),
+    status: t(`pj_${program.id}_status`, program.status),
+    images: [
+      getAsset(`pj_${program.id}_img1`, program.images[0]),
+      getAsset(`pj_${program.id}_img2`, program.images[1]),
+      getAsset(`pj_${program.id}_img3`, program.images[2]),
+    ],
+  }));
 
   return (
     <div className="w-full bg-[#FAF8F5] text-slate-800 selection:bg-[#FBE8E3] selection:text-[#E84E2D] overflow-x-hidden scroll-smooth">
@@ -397,16 +412,19 @@ export default function WorkPage() {
         >
           <span className="text-[#E84E2D] font-bold tracking-[0.3em] text-[11px] uppercase mb-4 px-4 py-1.5 bg-orange-100/80 rounded-full inline-flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#E84E2D] animate-pulse"></span>
-            OUR WORK &amp; PROGRAMS • SRI LANKA
+            {t("pj_hero_label", "OUR WORK & PROGRAMS • SRI LANKA")}
           </span>
 
           <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-[#141414] mb-6 tracking-tight leading-[1.1]">
-            Frontline Action. <br />
-            <span className="text-[#58214D] italic font-normal">Systemic Liberation.</span>
+            {t("pj_hero_title1", "Frontline Action.")} <br />
+            <span className="text-[#58214D] italic font-normal">{t("pj_hero_title2", "Systemic Liberation.")}</span>
           </h1>
 
           <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mb-8">
-            From midnight police station lockups to high-level parliamentary reform delegations, Abhimani Women&apos;s Collective operates a multi-tiered defense and support system for female and transgender sex workers across Sri Lanka.
+            {t(
+              "pj_hero_desc",
+              "From midnight police station lockups to high-level parliamentary reform delegations, Abhimani Women's Collective operates a multi-tiered defense and support system for female and transgender sex workers across Sri Lanka.",
+            )}
           </p>
 
           <div className="flex flex-wrap justify-center gap-3 text-xs font-bold uppercase tracking-wider text-gray-700">
@@ -434,7 +452,7 @@ export default function WorkPage() {
         className="scroll-mt-28 pb-24 max-w-7xl mx-auto px-6"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
-          {defaultPrograms.map((program) => (
+          {programs.map((program) => (
             <ProgramCard
               key={program.id}
               program={program}
@@ -460,10 +478,13 @@ export default function WorkPage() {
                 Knowledge That Shields
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#141414] mb-4">
-                Toolkits, Research &amp; Rights Guides
+                {t("pj_cta_title", "Toolkits, Research & Rights Guides")}
               </h2>
               <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6">
-                Knowledge is frontline protection. We publish practical pocket manuals in Sinhala, Tamil, and English outlining constitutional rights during police stops, legal defense protocols, and peer health guidelines.
+                {t(
+                  "pj_cta_desc",
+                  "Knowledge is frontline protection. We publish practical pocket manuals in Sinhala, Tamil, and English outlining constitutional rights during police stops, legal defense protocols, and peer health guidelines.",
+                )}
               </p>
 
               <div className="space-y-3 mb-6">

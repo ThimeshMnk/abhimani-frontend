@@ -84,15 +84,15 @@ export default function Navbar() {
           {/* 3. RIGHT ACTIONS: DONATE + SOCIALS + LANGUAGE SWITCHER */}
           <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
             <Link
-              href="/donate"
+              href={t("nav_donate_url", "/donate")}
               className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-black uppercase tracking-widest px-6 py-2.5 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95"
             >
-              DONATE
+              {t("btn_donate", "DONATE")}
             </Link>
 
             <div className="flex items-center gap-2 text-gray-700">
               <a
-                href="https://facebook.com"
+                href={t("header_fb_url", t("footer_fb_url", "https://facebook.com"))}
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-[#E84E2D] transition-colors p-1"
@@ -104,7 +104,7 @@ export default function Navbar() {
               </a>
 
               <a
-                href="https://instagram.com"
+                href={t("header_ig_url", t("footer_ig_url", "https://instagram.com"))}
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-[#E84E2D] transition-colors p-1"
@@ -200,11 +200,11 @@ export default function Navbar() {
 
               <div className="pt-2">
                 <Link
-                  href="/donate"
+                  href={t("nav_donate_url", "/donate")}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block text-center bg-[#E84E2D] text-white py-3 rounded-full text-xs font-black uppercase tracking-widest shadow-sm"
                 >
-                  DONATE
+                  {t("btn_donate", "DONATE")}
                 </Link>
               </div>
             </div>
