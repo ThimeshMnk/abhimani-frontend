@@ -16,6 +16,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'info.karakara.lk',
+        pathname: '/storage/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'images.unsplash.com',
       },
     ],
@@ -27,7 +32,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors 'self' https://web-production-3c6bc.up.railway.app http://localhost:8000;",
+            value: "frame-ancestors 'self' https://info.karakara.lk https://web-production-3c6bc.up.railway.app http://localhost:8000;",
           },
         ],
       },
