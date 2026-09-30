@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "../context/LanguageContext";
+import { siteHref } from "../lib/siteHref";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
@@ -84,7 +85,7 @@ export default function Navbar() {
           {/* 3. RIGHT ACTIONS: DONATE + SOCIALS + LANGUAGE SWITCHER */}
           <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
             <Link
-              href={t("nav_donate_url", "/donate")}
+              href={siteHref(t("nav_donate_url", "/donate"), "/donate")}
               className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-black uppercase tracking-widest px-6 py-2.5 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95"
             >
               {t("btn_donate", "DONATE")}
@@ -200,7 +201,7 @@ export default function Navbar() {
 
               <div className="pt-2">
                 <Link
-                  href={t("nav_donate_url", "/donate")}
+                  href={siteHref(t("nav_donate_url", "/donate"), "/donate")}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block text-center bg-[#E84E2D] text-white py-3 rounded-full text-xs font-black uppercase tracking-widest shadow-sm"
                 >

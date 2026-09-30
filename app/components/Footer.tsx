@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "../context/LanguageContext";
+import { siteHref } from "../lib/siteHref";
 
 const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, "");
 
@@ -248,7 +249,7 @@ export default function Footer() {
 
             <div className="space-y-3">
               <Link
-                href={t("footer_donate_url", "/donate")}
+                href={siteHref(t("footer_donate_url", "/donate"), "/donate")}
                 className="block w-full text-center bg-[#E84E2D] hover:bg-[#d13d1d] text-white font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 {t("footer_emergency_btn", t("btn_donate", "Donate to Bail Relief"))}

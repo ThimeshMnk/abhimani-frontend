@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { useLanguage } from "./context/LanguageContext";
 import { extraText, pickLang, usePageCards } from "./lib/pageCards";
+import { siteHref } from "./lib/siteHref";
 import { usePreviewScroll } from "./lib/usePreviewScroll";
 
 const fadeInUp: Variants = {
@@ -718,11 +719,11 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
                   buttons: [
                     {
                       text: extraText(card.extra, "btn1", locale),
-                      url: extraText(card.extra, "btn1_url", locale, "/donate"),
+                      url: siteHref(extraText(card.extra, "btn1_url", locale, "/donate"), "/donate"),
                     },
                     {
                       text: extraText(card.extra, "btn2", locale),
-                      url: extraText(card.extra, "btn2_url", locale, "/volunteer"),
+                      url: siteHref(extraText(card.extra, "btn2_url", locale, "/volunteer"), "/volunteer"),
                     },
                   ].filter((button) => button.text),
                   tone: index % 2 === 0 ? "orange" : "purple",
