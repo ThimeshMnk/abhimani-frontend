@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { usePreviewScroll } from "../lib/usePreviewScroll";
 
 const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, "");
 
@@ -15,7 +16,8 @@ const fadeInUp: Variants = {
 interface NewsItem {
   id: number;
   title: Record<string, string> | string;
-  category?: string;
+  category?: Record<string, string> | string;
+  cat?: Record<string, string> | string;
   date: string;
   location: Record<string, string> | string;
   excerpt: Record<string, string> | string;
@@ -178,17 +180,23 @@ function NewsDetailModal({
 }
 
 // Main Page
-export default function NewsPage() {
+export default function NewsPage({ initialNews = [] }: { initialNews?: NewsItem[] }) {
   const { t, getAsset, getAssetUrl, locale, isPreview } = useLanguage();
   const resolveAsset = getAsset || getAssetUrl;
-  const [newsList, setNewsList] = useState<NewsItem[]>(defaultNewsList);
+  usePreviewScroll();
+  const [newsList, setNewsList] = useState<NewsItem[]>(
+    initialNews.length > 0 ? initialNews : defaultNewsList,
+  );
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
 
   useEffect(() => {
     let isMounted = true;
     const loadNews = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/activities`);
+        const res = await fetch(`${API_BASE}/api/activities?t=${Date.now()}`, {
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache" },
+        });
         if (res.ok) {
           const data = await res.json();
           if (isMounted && Array.isArray(data) && data.length > 0) {
@@ -201,8 +209,20 @@ export default function NewsPage() {
     };
 
     loadNews();
+
+    const onMessage = (event: MessageEvent) => {
+      if (
+        event.data?.type === "TET_RELOAD_COLLECTION" ||
+        event.data?.type === "TET_RELOAD_SETTINGS"
+      ) {
+        loadNews();
+      }
+    };
+
+    window.addEventListener("message", onMessage);
     return () => {
       isMounted = false;
+      window.removeEventListener("message", onMessage);
     };
   }, []);
 
@@ -223,14 +243,18 @@ export default function NewsPage() {
           <motion.div initial="initial" whileInView="whileInView" viewport={{ once: true }} variants={fadeInUp}>
             <span className="text-[#E84E2D] font-bold text-[11px] tracking-[0.3em] uppercase mb-4 px-3.5 py-1.5 bg-orange-100/80 rounded-full inline-flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#E84E2D] animate-pulse"></span>
-              AWC PRESS DESK • ADVOCACY DISPATCHES
+              {t("act_hero_label", "AWC PRESS DESK • ADVOCACY DISPATCHES")}
             </span>
 
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-4 tracking-tight">
-              News &amp; <span className="text-[#58214D] italic font-normal">Press Releases</span>
+              {t("act_hero_title1", "News &")}{" "}
+              <span className="text-[#58214D] italic font-normal">{t("act_hero_title2", "Press Releases")}</span>
             </h1>
             <p className="text-gray-600 max-w-2xl text-sm md:text-base leading-relaxed">
-              Official press announcements, policy reform briefs, and field updates documenting our collective movement across Sri Lanka.
+              {t(
+                "act_hero_desc",
+                "Official press announcements, policy reform briefs, and field updates documenting our collective movement across Sri Lanka.",
+              )}
             </p>
           </motion.div>
         </div>
@@ -285,7 +309,7 @@ export default function NewsPage() {
 
                   <div className="p-6 md:p-7">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#58214D] block mb-2">
-                      {item.category || "Press Bulletin"}
+                      {resolveText(item.category || item.cat, "Press Bulletin")}
                     </span>
                     <h3 className="font-serif text-xl font-bold text-[#141414] mb-2.5 leading-snug group-hover:text-[#58214D] transition-colors">
                       {title}

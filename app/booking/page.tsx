@@ -54,7 +54,8 @@ export default async function Page() {
   try {
     const res = await fetch(`${API_BASE}/api/products`, { next: { revalidate: 60 } });
     if (res.ok) {
-      products = await res.json();
+      const data = await res.json();
+      if (Array.isArray(data)) products = data;
     }
   } catch (err) {
     console.error("Failed to fetch products for SEO schema:", err);

@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { extraText, pickLang, usePageCards, type PageCard } from "../lib/pageCards";
+import { usePreviewScroll } from "../lib/usePreviewScroll";
 
 const fadeInUp: Variants = {
   initial: { opacity: 0, y: 24 },
@@ -145,18 +147,21 @@ function ProgramCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
           {/* Category Badge */}
-          <div className="absolute top-4 left-4">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#58214D] bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-xs">
-              {program.cat}
-            </span>
-          </div>
+          {program.cat ? (
+            <div className="absolute top-4 left-4">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#58214D] bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-xs">
+                {program.cat}
+              </span>
+            </div>
+          ) : null}
 
-          {/* Status Badge */}
-          <div className="absolute bottom-4 right-4">
-            <span className="text-[10px] font-bold text-white bg-[#E84E2D] px-3 py-1 rounded-full shadow-sm">
-              {program.status}
-            </span>
-          </div>
+          {program.status ? (
+            <div className="absolute bottom-4 right-4">
+              <span className="text-[10px] font-bold text-white bg-[#E84E2D] px-3 py-1 rounded-full shadow-sm">
+                {program.status}
+              </span>
+            </div>
+          ) : null}
         </div>
 
         {/* Thumbnails */}
@@ -195,10 +200,15 @@ function ProgramCard({
       <div className="p-6 md:p-8 flex flex-col justify-between flex-grow">
         <div>
           <h3 className="font-serif text-2xl md:text-3xl font-bold text-[#141414] mb-3 leading-snug">
-            {program.title1}{" "}
-            <span className="text-[#58214D] italic font-normal">
-              {program.title2}
-            </span>
+            {program.title1}
+            {program.title2 ? (
+              <>
+                {" "}
+                <span className="text-[#58214D] italic font-normal">
+                  {program.title2}
+                </span>
+              </>
+            ) : null}
           </h3>
 
           <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
@@ -208,14 +218,18 @@ function ProgramCard({
 
         {/* Footer Bar */}
         <div className="pt-5 border-t border-gray-100 flex items-center justify-between">
-          <div>
-            <span className="text-lg font-serif font-bold text-[#E84E2D] block leading-none">
-              {program.statsVal}
-            </span>
-            <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
-              {program.statsLabel}
-            </span>
-          </div>
+          {program.statsVal ? (
+            <div>
+              <span className="text-lg font-serif font-bold text-[#E84E2D] block leading-none">
+                {program.statsVal}
+              </span>
+              <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                {program.statsLabel}
+              </span>
+            </div>
+          ) : (
+            <span />
+          )}
 
           <button
             type="button"
@@ -300,12 +314,16 @@ function ProgramDetailModal({
 
           {/* Badges */}
           <div className="absolute top-5 left-5 flex gap-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#58214D] bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full shadow-md">
-              {program.cat}
-            </span>
-            <span className="text-[11px] font-bold text-white bg-[#E84E2D] px-4 py-1.5 rounded-full">
-              {program.status}
-            </span>
+            {program.cat ? (
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#58214D] bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full shadow-md">
+                {program.cat}
+              </span>
+            ) : null}
+            {program.status ? (
+              <span className="text-[11px] font-bold text-white bg-[#E84E2D] px-4 py-1.5 rounded-full">
+                {program.status}
+              </span>
+            ) : null}
           </div>
 
           {/* Modal Thumbnails */}
@@ -336,10 +354,15 @@ function ProgramDetailModal({
         {/* Modal Story Content */}
         <div className="p-8 sm:p-12 overflow-y-auto max-h-[50vh]">
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#141414] mb-3 leading-tight">
-            {program.title1}{" "}
-            <span className="text-[#58214D] italic font-normal">
-              {program.title2}
-            </span>
+            {program.title1}
+            {program.title2 ? (
+              <>
+                {" "}
+                <span className="text-[#58214D] italic font-normal">
+                  {program.title2}
+                </span>
+              </>
+            ) : null}
           </h2>
 
           <div className="w-12 h-1 bg-[#E84E2D] rounded-full mb-6"></div>
@@ -375,23 +398,50 @@ function ProgramDetailModal({
 }
 
 // Main Our Work Page
+function galleryFor(card: PageCard, fallback: string[], getAsset: (path: string, fallback?: string) => string): string[] {
+  const extra = card.extra ?? {};
+  const paths = [card.image, extra.image2, extra.image3].filter(
+    (path): path is string => typeof path === "string" && path.trim() !== "",
+  );
+  const resolved = paths.map((path) => getAsset(path, "")).filter(Boolean);
+  return resolved.length ? resolved : fallback;
+}
+
 export default function WorkPage() {
   const [selectedProgram, setSelectedProgram] = useState<ProgramItem | null>(null);
-  const { t, getAsset } = useLanguage();
-  const programs = defaultPrograms.map((program) => ({
-    ...program,
-    cat: t(`pj_${program.id}_cat`, program.cat),
-    title1: t(`pj_${program.id}_title1`, program.title1),
-    title2: t(`pj_${program.id}_title2`, program.title2),
-    desc: t(`pj_${program.id}_desc`, program.desc),
-    longDesc: t(`pj_${program.id}_long_desc`, program.longDesc),
-    status: t(`pj_${program.id}_status`, program.status),
-    images: [
-      getAsset(`pj_${program.id}_img1`, program.images[0]),
-      getAsset(`pj_${program.id}_img2`, program.images[1]),
-      getAsset(`pj_${program.id}_img3`, program.images[2]),
-    ],
-  }));
+  const { t, getAsset, locale } = useLanguage();
+  const workCards = usePageCards("work_programs");
+  usePreviewScroll();
+  const programs: ProgramItem[] = workCards.length
+    ? workCards.map((card, index) => {
+        const photos = defaultPrograms[index]?.images ?? defaultPrograms[0].images;
+        return {
+          id: card.id,
+          cat: pickLang(card.tag, locale),
+          title1: pickLang(card.title, locale, "Untitled"),
+          title2: extraText(card.extra, "title2", locale),
+          desc: pickLang(card.description, locale),
+          longDesc: extraText(card.extra, "long_desc", locale),
+          status: pickLang(card.value, locale),
+          statsLabel: extraText(card.extra, "stats_label", locale),
+          statsVal: extraText(card.extra, "stats_val", locale),
+          images: galleryFor(card, photos, getAsset),
+        };
+      })
+    : defaultPrograms.map((program) => ({
+        ...program,
+        cat: t(`pj_${program.id}_cat`, program.cat),
+        title1: t(`pj_${program.id}_title1`, program.title1),
+        title2: t(`pj_${program.id}_title2`, program.title2),
+        desc: t(`pj_${program.id}_desc`, program.desc),
+        longDesc: t(`pj_${program.id}_long_desc`, program.longDesc),
+        status: t(`pj_${program.id}_status`, program.status),
+        images: [
+          getAsset(`pj_${program.id}_img1`, program.images[0]),
+          getAsset(`pj_${program.id}_img2`, program.images[1]),
+          getAsset(`pj_${program.id}_img3`, program.images[2]),
+        ].filter(Boolean),
+      }));
 
   return (
     <div className="w-full bg-[#FAF8F5] text-slate-800 selection:bg-[#FBE8E3] selection:text-[#E84E2D] overflow-x-hidden scroll-smooth">

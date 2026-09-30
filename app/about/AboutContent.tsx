@@ -43,23 +43,47 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="lg:col-span-7"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100/80 border border-orange-200 text-[#E84E2D] text-[11px] font-bold uppercase tracking-wider mb-6">
-              <span className="w-2 h-2 rounded-full bg-[#E84E2D] animate-pulse"></span>
-              {t("about_hero_label", "About Abhimani Women's Collective")}
-            </div>
+            {t("about_hero_label", "About Abhimani Women's Collective") ? (
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100/80 border border-orange-200 text-[#E84E2D] text-[11px] font-bold uppercase tracking-wider mb-6">
+                <span className="w-2 h-2 rounded-full bg-[#E84E2D] animate-pulse"></span>
+                {t("about_hero_label", "About Abhimani Women's Collective")}
+              </div>
+            ) : null}
 
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-[60px] font-bold text-[#141414] leading-[1.08] tracking-tight mb-6">
-              {t("about_hero_title_1", t("about_hero_title", "Built on Sisterhood."))} <br />
-              <span className="text-[#58214D]">{t("about_hero_title_2", "Governed by Truth.")}</span> <br />
-              <span className="text-[#E84E2D] font-normal italic font-serif">{t("about_hero_title_3", "Unapologetically Us.")}</span>
+              {[
+                {
+                  text: t("about_hero_title_1", t("about_hero_title", "Built on Sisterhood.")),
+                  className: "",
+                },
+                {
+                  text: t("about_hero_title_2", "Governed by Truth."),
+                  className: "text-[#58214D]",
+                },
+                {
+                  text: t("about_hero_title_3", "Unapologetically Us."),
+                  className: "text-[#E84E2D] font-normal italic font-serif",
+                },
+              ]
+                .filter((line) => line.text)
+                .map((line) => (
+                  <span key={line.text} className="block">
+                    <span className={line.className}>{line.text}</span>
+                  </span>
+                ))}
             </h1>
 
-            <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
-              {t(
-                "about_hero_description",
-                "We are Sri Lanka's leading grassroots collective founded and governed directly by female and transgender sex workers. We transform systemic isolation into organized resilience, frontline legal defence, and uncompromised dignity.",
-              )}
-            </p>
+            {t(
+              "about_hero_description",
+              "We are Sri Lanka's leading grassroots collective founded and governed directly by female and transgender sex workers. We transform systemic isolation into organized resilience, frontline legal defence, and uncompromised dignity.",
+            ) ? (
+              <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
+                {t(
+                  "about_hero_description",
+                  "We are Sri Lanka's leading grassroots collective founded and governed directly by female and transgender sex workers. We transform systemic isolation into organized resilience, frontline legal defence, and uncompromised dignity.",
+                )}
+              </p>
+            ) : null}
 
             {/* Quick-Jump In-Page Navigator */}
             <div className="flex flex-wrap items-center gap-2 pt-2 pb-6 border-y border-gray-200/80 mb-8 text-[11px] font-bold uppercase tracking-wider text-gray-600">

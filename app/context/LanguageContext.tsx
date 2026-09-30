@@ -91,13 +91,18 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const t = useCallback(
     (key: string, fallback: string = ""): string => {
       const val = mergedData[key];
-      if (val === undefined || val === null || val === "") return fallback;
-
-      if (typeof val === "object") {
-        return val[locale] || val["en"] || fallback;
+      if (val === undefined || val === null) return fallback;
+      if (typeof val !== "object") {
+        const text = String(val).trim();
+        return text || fallback;
       }
 
-      return String(val);
+      const current = String(val[locale] ?? "").trim();
+      if (current) return current;
+      const english = String(val.en ?? "").trim();
+      if (english) return english;
+      if ("en" in val || locale in val) return "";
+      return fallback;
     },
     [mergedData, locale]
   );

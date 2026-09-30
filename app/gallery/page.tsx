@@ -67,7 +67,8 @@ export default async function Page() {
       next: { revalidate: 60 },
     });
     if (res.ok) {
-      events = await res.json();
+      const data = await res.json();
+      if (Array.isArray(data)) events = data;
     }
   } catch (err) {
     console.error("Failed to fetch events for SEO schema:", err);

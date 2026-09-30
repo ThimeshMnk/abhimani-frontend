@@ -64,10 +64,11 @@ export default async function Page() {
 
   try {
     const res = await fetch(`${API_BASE}/api/activities`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
     if (res.ok) {
-      activities = await res.json();
+      const data = await res.json();
+      if (Array.isArray(data)) activities = data;
     }
   } catch (err) {
     console.error("Failed to fetch activities for SEO schema:", err);
@@ -123,7 +124,7 @@ export default async function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <NewsContent />
+      <NewsContent initialNews={activities} />
     </>
   );
 }

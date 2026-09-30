@@ -7,6 +7,7 @@ const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"
 export type PageCardGroup =
   | "home_programs"
   | "home_involve"
+  | "work_programs"
   | "about_values"
   | "contact_info"
   | "donate_impact"
