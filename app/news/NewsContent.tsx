@@ -132,7 +132,7 @@ function NewsDetailModal({
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
           <div className="absolute bottom-5 left-6 right-6 text-white">
             <span className="text-[10px] font-bold uppercase tracking-wider bg-[#E84E2D] text-white px-3 py-1 rounded-full shadow-sm inline-block mb-2">
-              {news.category || "Press Release"}
+              {resolveText(news.category || news.cat, "Press Release")}
             </span>
             <h2 className="font-serif text-2xl font-bold leading-tight">
               {title}
