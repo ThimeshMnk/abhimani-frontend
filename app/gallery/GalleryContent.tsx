@@ -263,7 +263,7 @@ function EventDetailModal({
 }
 
 // Main Gallery Page
-export default function GalleryPage() {
+export default function GalleryPage({ embedded = false }: { embedded?: boolean }) {
   const { t, getAsset, getAssetUrl, locale } = useLanguage();
   const resolveAsset = getAsset || getAssetUrl;
   const [eventsList, setEventsList] = useState<EventItem[]>(defaultEvents);
@@ -338,10 +338,10 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="w-full bg-[#FAF8F5] text-slate-800 selection:bg-[#FBE8E3] selection:text-[#E84E2D] min-h-screen overflow-x-hidden scroll-smooth">
+    <div className={embedded ? "w-full bg-white text-slate-800" : "w-full bg-[#FAF8F5] text-slate-800 selection:bg-[#FBE8E3] selection:text-[#E84E2D] min-h-screen overflow-x-hidden scroll-smooth"}>
       
       {/* 1. HEADER SECTION */}
-      <section id="gallery-hero" className="scroll-mt-28 py-16 md:py-24 px-6">
+      <section id={embedded ? "events-gallery" : "gallery-hero"} className={embedded ? "scroll-mt-28 py-20 px-6 border-t border-gray-200/60" : "scroll-mt-28 py-16 md:py-24 px-6"}>
         <div className="max-w-7xl mx-auto">
           <motion.div 
             initial="initial"
@@ -355,12 +355,18 @@ export default function GalleryPage() {
               {t("gl_events_tag", "COMMUNITY ARCHIVE • GATHERINGS & MILESTONES")}
             </span>
 
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-4 tracking-tight leading-[1.12]">
-              {t("gl_gallery_title", "Moments of Resistance")} <br />
-              <span className="text-[#58214D] italic font-normal">
-                &amp; Collective Care
-              </span>
-            </h1>
+            {embedded ? (
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#141414] mb-4 tracking-tight leading-[1.12]">
+                {t("work_events_title", "Events & Gallery")}
+              </h2>
+            ) : (
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-4 tracking-tight leading-[1.12]">
+                {t("gl_gallery_title", "Moments of Resistance")} <br />
+                <span className="text-[#58214D] italic font-normal">
+                  &amp; Collective Care
+                </span>
+              </h1>
+            )}
 
             <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
               {t(

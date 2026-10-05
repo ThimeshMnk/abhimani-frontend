@@ -48,7 +48,7 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
             <div className="absolute inset-0 bg-gradient-to-r from-white via-white/10 via-40% md:via-50% to-transparent" />
           </div>
 
-          <div className="relative max-w-7xl mx-auto px-6 lg:px-12 w-full z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+          <div className="relative max-w-7xl mx-auto px-6 lg:px-12 w-full z-10">
             <div className="max-w-xl">
               <motion.h1
                 initial={{ opacity: 0, y: 15 }}
@@ -85,47 +85,58 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25, duration: 0.6 }}
-                className="flex flex-wrap items-center gap-4"
+                className="flex flex-wrap items-center gap-3"
               >
                 <Link
-                  href={t("btn_support_url", "/projects")}
-                  className="bg-[#58214D] hover:bg-[#45183c] text-white text-xs font-bold px-7 py-3.5 rounded-lg shadow-md transition-all flex items-center gap-2 group"
+                  href={siteHref(t("nav_volunteer_url", "/volunteer"), "/volunteer")}
+                  className="bg-[#58214D] hover:bg-[#45183c] text-white text-xs font-black uppercase tracking-widest px-7 py-3.5 rounded-full shadow-md transition-all"
                 >
-                  <span>{t("btn_support", "Explore Our Work")}</span>
-                  <span className="transition-transform group-hover:translate-x-1">
-                    →
-                  </span>
+                  {t("btn_volunteer", "Volunteer")}
                 </Link>
                 <Link
-                  href={t("btn_mission_url", "/about")}
-                  className="bg-white/90 hover:bg-white text-[#222222] border border-gray-400 hover:border-gray-900 text-xs font-bold px-7 py-3.5 rounded-lg transition-all shadow-xs"
+                  href={siteHref(t("nav_donate_url", "/donate"), "/donate")}
+                  className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-black uppercase tracking-widest px-7 py-3.5 rounded-full shadow-md transition-all"
+                >
+                  {t("btn_donate", "Donate")}
+                </Link>
+                <Link
+                  href="/about"
+                  className="text-xs font-bold text-[#222222] underline-offset-4 hover:underline px-2 py-3.5"
                 >
                   {t("btn_mission", "Read Our Story")}
                 </Link>
               </motion.div>
-            </div>
 
-            <div className="hidden lg:flex flex-col items-start pr-8 xl:pr-20 select-none pointer-events-none">
-              <div className="font-script text-white text-4xl xl:text-5xl leading-[1.35] tracking-wide drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
-                <div>{t("hero_word_1", "Rights")}</div>
-                <div>{t("hero_word_2", "Dignity")}</div>
-                <div>{t("hero_word_3", "Safety")}</div>
-                <div className="relative inline-block">
-                  {t("hero_word_4", "Community")}
-                  <svg
-                    className="w-24 h-4 text-[#E84E2D] absolute -bottom-2 left-0"
-                    viewBox="0 0 100 20"
-                    fill="none"
-                  >
-                    <path
-                      d="M3 14C30 4 75 6 97 12"
-                      stroke="currentColor"
-                      strokeWidth="3.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.6 }}
+                className="mt-8 max-w-lg"
+              >
+                <Link
+                  href="/social-enterprise"
+                  className="group flex items-start gap-4 rounded-2xl bg-white/95 border border-[#58214D]/15 shadow-lg px-5 py-4 hover:border-[#E84E2D]/40 transition-colors"
+                >
+                  <span className="mt-1 h-10 w-1 shrink-0 rounded-full bg-[#E84E2D]" aria-hidden="true" />
+                  <span className="min-w-0">
+                    <span className="block text-[#E84E2D] font-bold text-[10px] uppercase tracking-[0.22em]">
+                      {t("hero_se_label", "Social Enterprise")}
+                    </span>
+                    <span className="mt-1 block font-serif text-lg font-bold text-[#141414] leading-snug">
+                      {t("hero_se_title", "Purpose-driven livelihoods, made by the community.")}
+                    </span>
+                    <span className="mt-1 block text-xs text-gray-600 leading-relaxed">
+                      {t(
+                        "hero_se_text",
+                        "Products, artisans, and the community benefit behind AWC’s livelihood initiative.",
+                      )}
+                    </span>
+                    <span className="mt-2 block text-[11px] font-black uppercase tracking-widest text-[#58214D] group-hover:text-[#E84E2D]">
+                      {t("hero_se_cta", "Visit Social Enterprise →")}
+                    </span>
+                  </span>
+                </Link>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -435,16 +446,16 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  href="/shop"
+                  href="/social-enterprise"
                   className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-black uppercase tracking-widest px-8 py-3.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-md"
                 >
-                  {t("home_shop_btn1", "Visit The Shop")}
+                  {t("home_shop_btn1", "Explore Social Enterprise")}
                 </Link>
                 <Link
-                  href="/shop#crafts"
+                  href="/social-enterprise#products"
                   className="border border-white/40 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-full transition-all"
                 >
-                  {t("home_shop_btn2", "View Product Catalog")}
+                  {t("home_shop_btn2", "See the products")}
                 </Link>
               </div>
             </div>
@@ -472,10 +483,10 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="max-w-xl mb-14">
             <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
-              {t("home_story_label", "Voices of Courage")}
+              {t("home_impact_label", "Impact")}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#141414]">
-              {t("home_story_title", "Real Stories, Real Resilience")}
+              {t("home_impact_title", "What this work makes possible")}
             </h2>
           </div>
 
@@ -514,10 +525,10 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
                   Read dozens of first-person narratives
                 </span>
                 <Link
-                  href="/stories"
+                  href="/projects#impact"
                   className="text-[#E84E2D] hover:text-[#58214D] font-bold text-xs uppercase tracking-wider transition-colors"
                 >
-                  {t("home_story_more", "More Impact Stories →")}
+                  {t("home_story_more", "See impact in Our Work →")}
                 </Link>
               </div>
             </motion.div>
@@ -609,86 +620,6 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
       </section> */}
 
       
-      {/* ========================================================================= */}
-      {/* 9. NEWS & UPDATES */}
-      {/* ========================================================================= */}
-      <section id="home-news" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 gap-4">
-            <div>
-              <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
-                {t("home_news_label", "Stay Informed")}
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#141414]">
-                {t("home_news_title", "Latest News & Bulletins")}
-              </h2>
-            </div>
-            <Link
-              href="/news"
-              className="text-[#58214D] hover:text-[#E84E2D] text-xs font-bold uppercase tracking-widest transition-colors"
-            >
-              {t("home_news_cta", "All News & Press Releases →")}
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                date: "March 18, 2026",
-                title:
-                  "AWC Submits Landmark Submissions on Decriminalisation to National Committee",
-                desc: "Advocates presented lived-experience evidence urging repeal of colonial vagrancy ordinances.",
-                img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=600&q=80",
-                link: "/news/1",
-              },
-              {
-                date: "February 24, 2026",
-                title:
-                  "Expansion of Our Colombo 24/7 Crisis Hotline & Legal Accompaniment Unit",
-                desc: "Strengthened intake teams ready to provide instant bail coordination and legal assistance.",
-                img: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=600&q=80",
-                link: "/news/2",
-              },
-              {
-                date: "January 15, 2026",
-                title:
-                  "Community Social Enterprise Launches New Eco-Textile Collection",
-                desc: "Showcasing handcrafted accessories directly supporting peer survival stipends.",
-                img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
-                link: "/news/3",
-              },
-            ].map((news, i) => (
-              <article key={i} className="flex flex-col group">
-                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-4 shadow-sm">
-                  <Image
-                    src={news.img}
-                    alt={news.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <time className="text-[11px] font-bold text-[#E84E2D] uppercase tracking-wider mb-2">
-                  {news.date}
-                </time>
-                <h3 className="font-serif font-bold text-lg text-[#141414] group-hover:text-[#58214D] transition-colors mb-2 leading-snug">
-                  {news.title}
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4">
-                  {news.desc}
-                </p>
-                <Link
-                  href={news.link}
-                  className="text-[#58214D] font-bold text-xs uppercase tracking-wider inline-flex items-center gap-1 group-hover:gap-2 transition-all mt-auto"
-                >
-                  <span>Read Article</span>
-                  <span>→</span>
-                </Link>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ========================================================================= */}
       {/* 10. GET INVOLVED (SUPPORT OUR WORK, CORPORATE PARTNERSHIPS) */}
       {/* ========================================================================= */}
@@ -785,8 +716,6 @@ export default function HomeContent({ customTitle }: HomeContentProps = {}) {
         </div>
       </section>
 
-
-      
     </div>
   );
 }

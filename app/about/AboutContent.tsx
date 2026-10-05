@@ -103,6 +103,9 @@ export default function AboutPage() {
               <a href="#values" className="px-3 py-1.5 rounded-full bg-white hover:bg-orange-50 hover:text-[#E84E2D] transition-colors border border-gray-200">
                 Values
               </a>
+              <a href="#leadership" className="px-3 py-1.5 rounded-full bg-white hover:bg-orange-50 hover:text-[#E84E2D] transition-colors border border-gray-200">
+                Leadership
+              </a>
             </div>
 
             {/* Key Trust Stats */}
@@ -568,7 +571,33 @@ export default function AboutPage() {
         </div>
       </section>
 
-     
+      <section
+        id="leadership"
+        className="scroll-mt-24 py-20 md:py-28 bg-[#FAF8F5] border-t border-gray-200/60"
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <span className="text-[#E84E2D] font-bold uppercase text-[10px] tracking-[0.25em] block mb-2">
+            {t("about_lead_label", "Governance")}
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#141414] mb-6">
+            {t("about_lead_title", "Leadership & Board")}
+          </h2>
+          <div className="max-w-3xl bg-white rounded-3xl border border-gray-200/80 p-8 sm:p-10 shadow-sm">
+            <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-4">
+              {t(
+                "about_lead_text",
+                "Abhimani Women's Collective is governed by the community it serves. This section will carry the current Board of Directors and leadership profiles as soon as the updated organisational profile is confirmed.",
+              )}
+            </p>
+            <p className="text-gray-500 text-xs leading-relaxed">
+              {t(
+                "about_lead_note",
+                "Names, roles, and photographs will be added here from the organisation’s latest guidance. They are not listed until that profile is shared.",
+              )}
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

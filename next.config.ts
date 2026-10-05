@@ -30,6 +30,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      { source: "/shop", destination: "/social-enterprise", permanent: false },
+      { source: "/resources", destination: "/library", permanent: false },
+      { source: "/news", destination: "/projects", permanent: false },
+      { source: "/news/:path*", destination: "/projects", permanent: false },
+      { source: "/work", destination: "/projects", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {

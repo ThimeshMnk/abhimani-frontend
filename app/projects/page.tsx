@@ -3,7 +3,7 @@ import ProjectsContent from "./ProjectsContent";
 
 // 1. SEO Metadata tailored specifically for AWC Projects & Programs
 export const metadata: Metadata = {
-  title: "Frontline Programs & Strategic Advocacy | Abhimani Women's Collective",
+  title: "Our Work | Abhimani Women's Collective",
   description:
     "Explore AWC's strategic initiatives driving decriminalisation, emergency legal bail defense, stigma-free healthcare, and transitional safe houses for sex workers across Sri Lanka.",
   keywords: [

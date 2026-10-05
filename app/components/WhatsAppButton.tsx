@@ -1,15 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useSyncExternalStore } from "react";
 import { useLanguage } from "../context/LanguageContext";
+
+function subscribePreviewFrame() {
+  return () => {};
+}
 
 export default function WhatsAppButton() {
   const { t } = useLanguage();
-  const [inPreviewFrame, setInPreviewFrame] = useState(false);
-
-  useEffect(() => {
-    setInPreviewFrame(window.self !== window.top);
-  }, []);
+  const inPreviewFrame = useSyncExternalStore(
+    subscribePreviewFrame,
+    () => window.self !== window.top,
+    () => false,
+  );
 
   const phoneNumber = t("whatsapp_phone", "94771234567").replace(/[^0-9]/g, "");
   const message = t(

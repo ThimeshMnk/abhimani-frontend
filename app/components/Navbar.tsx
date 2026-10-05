@@ -27,15 +27,23 @@ export default function Navbar() {
   const navLinks = [
     { name: t("nav_about", "ABOUT US"), href: "/about" },
     { name: t("nav_work", "OUR WORK"), href: "/projects" },
-    { name: t("nav_shop", "SHOP"), href: "/shop" },
-    { name: t("nav_news", "NEWS"), href: "/news" },
-    { name: t("nav_impact", "OUR IMPACT"), href: "/gallery" },
+    { name: t("nav_enterprise", "SOCIAL ENTERPRISE"), href: "/social-enterprise" },
+    { name: t("nav_library", "LIBRARY"), href: "/library" },
     { name: t("nav_contact", "CONTACT US"), href: "/contact" },
   ];
 
   // Helper to determine if link is currently active
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
+    if (href === "/projects") {
+      return pathname.startsWith("/projects") || pathname.startsWith("/work") || pathname.startsWith("/gallery");
+    }
+    if (href === "/social-enterprise") {
+      return pathname.startsWith("/social-enterprise") || pathname.startsWith("/shop");
+    }
+    if (href === "/library") {
+      return pathname.startsWith("/library") || pathname.startsWith("/resources");
+    }
     return pathname.startsWith(href);
   };
 
@@ -45,7 +53,7 @@ export default function Navbar() {
         <div className="flex justify-between h-20 items-center">
           
           {/* 1. LOGO (LOADED FROM PUBLIC/IMAGES/LOGO.JPEG OR ADMIN) */}
-          <Link href="/" className="flex items-center gap-3 group flex-shrink-0 mr-6 lg:mr-10">
+          <Link href="/" className="flex items-center gap-3 group shrink-0 mr-4">
             <div className="relative h-11 w-36 sm:w-44">
               <Image
                 src={logoSrc}
@@ -59,7 +67,7 @@ export default function Navbar() {
           </Link>
 
           {/* 2. DIRECT DESKTOP LINKS WITH ACTIVE HIGHLIGHT */}
-          <nav className="hidden xl:flex items-center space-x-6 lg:space-x-8 text-[12px] font-bold uppercase tracking-wider text-gray-800">
+          <nav className="hidden xl:flex items-center gap-x-3 2xl:gap-x-5 text-[11px] font-bold uppercase tracking-wide text-gray-800 min-w-0">
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
@@ -83,15 +91,21 @@ export default function Navbar() {
           </nav>
 
           {/* 3. RIGHT ACTIONS: DONATE + SOCIALS + LANGUAGE SWITCHER */}
-          <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
+          <div className="hidden xl:flex items-center gap-2 shrink-0">
+            <Link
+              href={siteHref(t("nav_volunteer_url", "/volunteer"), "/volunteer")}
+              className="border border-[#58214D] text-[#58214D] hover:bg-[#58214D] hover:text-white text-[11px] font-black uppercase tracking-widest px-4 py-2.5 rounded-full transition-all"
+            >
+              {t("btn_volunteer", "VOLUNTEER")}
+            </Link>
             <Link
               href={siteHref(t("nav_donate_url", "/donate"), "/donate")}
-              className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-xs font-black uppercase tracking-widest px-6 py-2.5 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95"
+              className="bg-[#E84E2D] hover:bg-[#d13d1d] text-white text-[11px] font-black uppercase tracking-widest px-5 py-2.5 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95"
             >
               {t("btn_donate", "DONATE")}
             </Link>
 
-            <div className="flex items-center gap-2 text-gray-700">
+            <div className="hidden 2xl:flex items-center gap-2 text-gray-700">
               <a
                 href={t("header_fb_url", t("footer_fb_url", "https://facebook.com"))}
                 target="_blank"
@@ -199,7 +213,14 @@ export default function Navbar() {
                 );
               })}
 
-              <div className="pt-2">
+              <div className="pt-2 grid grid-cols-2 gap-3">
+                <Link
+                  href={siteHref(t("nav_volunteer_url", "/volunteer"), "/volunteer")}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-center border border-[#58214D] text-[#58214D] py-3 rounded-full text-xs font-black uppercase tracking-widest"
+                >
+                  {t("btn_volunteer", "VOLUNTEER")}
+                </Link>
                 <Link
                   href={siteHref(t("nav_donate_url", "/donate"), "/donate")}
                   onClick={() => setIsMobileMenuOpen(false)}

@@ -97,7 +97,7 @@ const defaultProducts: ProductItem[] = [
 ];
 
 export default function ShopPage() {
-  const { isPreview, locale, getAsset, getAssetUrl } = useLanguage();
+  const { isPreview, locale, getAsset, getAssetUrl, t } = useLanguage();
   const resolveAsset = getAsset || getAssetUrl;
 
   const [productsList, setProductsList] = useState<ProductItem[]>(defaultProducts);
@@ -212,15 +212,17 @@ export default function ShopPage() {
       <section className="py-16 md:py-24 px-6 border-b border-gray-200/70 bg-white">
         <div className="max-w-7xl mx-auto text-center max-w-3xl">
           <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] px-4 py-1.5 bg-orange-100/80 rounded-full inline-block mb-4">
-            AWC Social Enterprise • Livelihood Autonomy
+            {t("se_hero_label", "Social Enterprise • Livelihood initiative")}
           </span>
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-5 tracking-tight leading-[1.12]">
-            Survivor-Crafted. <br />
-            <span className="text-[#58214D] italic font-normal">Ethical &amp; Empowering.</span>
+            {t("se_hero_title_1", "A livelihood,")} <br />
+            <span className="text-[#58214D] italic font-normal">{t("se_hero_title_2", "not only a shop.")}</span>
           </h1>
-          <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl mx-auto mb-8">
-            Every handmade textile, botanical product, and craft in our shop is created by community survivors. 
-            <strong> 100% of profits</strong> fund dignified livelihood stipends and emergency legal bail relief.
+          <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
+            {t(
+              "se_hero_desc",
+              "The Social Enterprise is AWC’s purpose-driven livelihood initiative. Community members make the products. Income supports dignified work and the collective’s community care.",
+            )}
           </p>
 
           {/* Dynamic Category Filter Pills */}
@@ -243,8 +245,52 @@ export default function ShopPage() {
         </div>
       </section>
 
-      {/* 2. PRODUCT CATALOG GRID */}
       <section className="py-16 px-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              id: "purpose",
+              title: t("se_purpose_title", "Purpose"),
+              text: t(
+                "se_purpose_text",
+                "The enterprise exists so members can earn through making and selling, on terms set by the community rather than by stigma or charity.",
+              ),
+            },
+            {
+              id: "artisans",
+              title: t("se_artisans_title", "Artisans & community"),
+              text: t(
+                "se_artisans_text",
+                "Textiles, wellness goods, and handmades are made by peer collectives and safe-house residents. Maker credits on each product name the group behind the work.",
+              ),
+            },
+            {
+              id: "benefit",
+              title: t("se_benefit_title", "Community benefit"),
+              text: t(
+                "se_benefit_text",
+                "Proceeds return to livelihood stipends and the collective’s frontline support, including emergency legal aid. Product details will be refreshed when the latest enterprise records arrive.",
+              ),
+            },
+          ].map((block) => (
+            <article key={block.id} id={block.id} className="scroll-mt-28 bg-white rounded-3xl border border-gray-200/80 p-8">
+              <h2 className="font-serif text-2xl font-bold text-[#141414] mb-3">{block.title}</h2>
+              <p className="text-sm text-gray-600 leading-relaxed">{block.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* 2. PRODUCT CATALOG GRID */}
+      <section id="products" className="scroll-mt-28 py-16 px-6 max-w-7xl mx-auto">
+        <div className="mb-10 max-w-2xl">
+          <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
+            {t("se_products_label", "The products")}
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#141414]">
+            {t("se_products_title", "What the community makes")}
+          </h2>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
           {filteredProducts.map((product) => {
             const prodName = resolveText(product.name || product.title, "Artisan Craft");
@@ -352,7 +398,7 @@ export default function ShopPage() {
               </button>
 
               <div className="grid grid-cols-1 sm:grid-cols-2">
-                <div className="relative aspect-square sm:h-full bg-gray-100 min-h-[300px]">
+                <div className="relative aspect-square sm:aspect-auto min-h-[240px] sm:min-h-[420px] overflow-hidden bg-gray-100">
                   <Image
                     src={resolveAsset(
                       activeProduct.image || activeProduct.img || activeProduct.cover_image,
@@ -362,10 +408,11 @@ export default function ShopPage() {
                     alt={resolveText(activeProduct.name || activeProduct.title, "Artisan Craft")}
                     className="object-cover"
                     unoptimized={isPreview}
+                    sizes="(max-width: 640px) 100vw, 340px"
                   />
                 </div>
 
-                <div className="p-8 flex flex-col justify-between">
+                <div className="relative z-10 min-w-0 bg-white p-6 sm:p-8 sm:pl-7 flex flex-col justify-between">
                   <div>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#E84E2D] block mb-1">
                       {resolveText(activeProduct.artisan, "AWC Community Collective")}

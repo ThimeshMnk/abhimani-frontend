@@ -161,6 +161,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/about#leadership"
+                  className="hover:text-[#E84E2D] transition-colors"
+                >
+                  {t("footer_org_leadership", "Leadership & Board")}
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/contact"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
@@ -181,28 +189,20 @@ export default function Footer() {
                   href="/projects"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  {t("footer_work_programs", "Our Work & Programs")}
+                  {t("footer_work_programs", "Our Work")}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/shop"
+                  href="/projects#impact"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  {t("footer_work_shop", "Artisan Shop & Products")}
+                  {t("footer_work_impact", "Impact & Achievements")}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/news"
-                  className="hover:text-[#E84E2D] transition-colors"
-                >
-                  {t("footer_work_news", "News & Press Releases")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/gallery"
+                  href="/projects#events-gallery"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
                   {t("footer_work_gallery", "Events & Gallery")}
@@ -210,10 +210,18 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/resources"
+                  href="/social-enterprise"
                   className="hover:text-[#E84E2D] transition-colors"
                 >
-                  {t("footer_work_resources", "Toolkits & Publications")}
+                  {t("footer_work_enterprise", "Social Enterprise")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/library"
+                  className="hover:text-[#E84E2D] transition-colors"
+                >
+                  {t("footer_work_library", "Library")}
                 </Link>
               </li>
               <li>

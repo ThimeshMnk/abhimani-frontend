@@ -7,6 +7,7 @@ import { motion, Variants, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { extraText, pickLang, usePageCards, type PageCard } from "../lib/pageCards";
 import { usePreviewScroll } from "../lib/usePreviewScroll";
+import GalleryPage from "../gallery/GalleryContent";
 
 const fadeInUp: Variants = {
   initial: { opacity: 0, y: 24 },
@@ -477,19 +478,25 @@ export default function WorkPage() {
             )}
           </p>
 
-          <div className="flex flex-wrap justify-center gap-3 text-xs font-bold uppercase tracking-wider text-gray-700">
-            <a href="#legal" className="px-4 py-2 rounded-full bg-white border border-gray-200 hover:border-[#E84E2D] hover:text-[#E84E2D] transition-colors">
-              Emergency Legal Aid
-            </a>
-            <a href="#health" className="px-4 py-2 rounded-full bg-white border border-gray-200 hover:border-[#E84E2D] hover:text-[#E84E2D] transition-colors">
-              Peer Healthcare
-            </a>
-            <a href="#shelter" className="px-4 py-2 rounded-full bg-white border border-gray-200 hover:border-[#E84E2D] hover:text-[#E84E2D] transition-colors">
-              Safe Shelters
-            </a>
-            <a href="#shop-enterprise" className="px-4 py-2 rounded-full bg-white border border-gray-200 hover:border-[#E84E2D] hover:text-[#E84E2D] transition-colors">
-              Social Enterprise
-            </a>
+          <div className="flex flex-wrap justify-center gap-2 text-[11px] font-bold uppercase tracking-wider text-gray-700">
+            {[
+              ["#programmes", t("work_jump_programmes", "Programmes")],
+              ["#advocacy", t("work_jump_advocacy", "Advocacy")],
+              ["#community", t("work_jump_community", "Community")],
+              ["#research", t("work_jump_research", "Research")],
+              ["#capacity", t("work_jump_capacity", "Capacity building")],
+              ["#events-gallery", t("work_jump_events", "Events & gallery")],
+              ["#impact", t("work_jump_impact", "Impact")],
+              ["#international", t("work_jump_international", "International")],
+            ].map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                className="px-4 py-2 rounded-full bg-white border border-gray-200 hover:border-[#E84E2D] hover:text-[#E84E2D] transition-colors"
+              >
+                {label}
+              </a>
+            ))}
           </div>
         </motion.div>
       </section>
@@ -498,7 +505,7 @@ export default function WorkPage() {
       {/* 2. PROGRAM CARDS GRID */}
       {/* ========================================================================= */}
       <section 
-        id="programs-grid" 
+        id="programmes" 
         className="scroll-mt-28 pb-24 max-w-7xl mx-auto px-6"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
@@ -513,6 +520,110 @@ export default function WorkPage() {
       </section>
 
       
+      <section className="pb-8 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              id: "advocacy",
+              title: t("work_advocacy_title", "Advocacy"),
+              text: t(
+                "work_advocacy_text",
+                "AWC takes lived experience into policy spaces, including work to challenge laws that criminalise sex work, such as colonial vagrancy ordinances.",
+              ),
+            },
+            {
+              id: "community",
+              title: t("work_community_title", "Community work"),
+              text: t(
+                "work_community_text",
+                "Peer-led healthcare, confidential shelter, crisis accompaniment, and day-to-day solidarity with female and transgender sex workers.",
+              ),
+            },
+            {
+              id: "research",
+              title: t("work_research_title", "Research"),
+              text: t(
+                "work_research_text",
+                "Evidence, briefs, and reports that support the collective’s advocacy. Publications and downloads are kept in the Library.",
+              ),
+            },
+            {
+              id: "capacity",
+              title: t("work_capacity_title", "Capacity building"),
+              text: t(
+                "work_capacity_text",
+                "Legal literacy, peer education, and practical skills that help members defend their rights, health, and livelihoods.",
+              ),
+            },
+          ].map((area) => (
+            <article
+              key={area.id}
+              id={area.id}
+              className="scroll-mt-28 bg-white rounded-3xl border border-gray-200/80 p-8 shadow-sm"
+            >
+              <h2 className="font-serif text-2xl font-bold text-[#141414] mb-3">{area.title}</h2>
+              <p className="text-gray-600 text-sm leading-relaxed">{area.text}</p>
+              {area.id === "research" && (
+                <Link
+                  href="/library"
+                  className="inline-flex mt-4 text-xs font-bold uppercase tracking-widest text-[#58214D] hover:text-[#E84E2D]"
+                >
+                  {t("work_research_link", "Open the Library →")}
+                </Link>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <GalleryPage embedded />
+
+      <section id="impact" className="scroll-mt-28 py-20 bg-[#FAF8F5] border-t border-gray-200/60">
+        <div className="max-w-7xl mx-auto px-6">
+          <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
+            {t("work_impact_label", "Achievements")}
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#141414] mb-8">
+            {t("work_impact_title", "Impact")}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              [t("work_impact_1_value", "5,000+"), t("work_impact_1_label", "Community members reached through direct support and peer defence")],
+              [t("work_impact_2_value", "24/7"), t("work_impact_2_label", "Crisis accompaniment for arrests, safety threats, and emergency intake")],
+              [t("work_impact_3_value", "100%"), t("work_impact_3_label", "Survivor-governed leadership of the collective")],
+            ].map(([value, label]) => (
+              <div key={value} className="bg-white rounded-3xl border border-gray-200/80 p-8">
+                <p className="font-serif text-4xl font-bold text-[#58214D] mb-3">{value}</p>
+                <p className="text-sm text-gray-600 leading-relaxed">{label}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-500 mt-6 max-w-2xl">
+            {t(
+              "work_impact_note",
+              "Programme-level achievements will be updated when AWC shares the latest project and impact records.",
+            )}
+          </p>
+        </div>
+      </section>
+
+      <section id="international" className="scroll-mt-28 py-20 bg-white border-t border-gray-200/60">
+        <div className="max-w-3xl mx-auto px-6">
+          <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">
+            {t("work_intl_label", "Beyond Sri Lanka")}
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#141414] mb-4">
+            {t("work_intl_title", "International activities")}
+          </h2>
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            {t(
+              "work_intl_text",
+              "AWC also takes part in solidarity and exchange beyond Sri Lanka. Specific partnerships, visits, and international programmes will be added here with the updated organisational profile.",
+            )}
+          </p>
+        </div>
+      </section>
+
       {/* ========================================================================= */}
       {/* 4. TOOLKITS & RESOURCES PREVIEW */}
       {/* ========================================================================= */}
@@ -551,7 +662,7 @@ export default function WorkPage() {
               </div>
 
               <Link
-                href="/resources"
+                href="/library"
                 className="inline-flex items-center gap-2 text-xs font-bold text-[#58214D] hover:text-[#E84E2D] uppercase tracking-widest transition-colors"
               >
                 <span>Browse All Downloads &amp; Publications</span>

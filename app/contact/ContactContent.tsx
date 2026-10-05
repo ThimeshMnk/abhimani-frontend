@@ -397,6 +397,45 @@ export default function ContactPage() {
         </div>
       </section>
 
+      <section id="contact-social" className="scroll-mt-28 max-w-7xl mx-auto px-6 pb-16">
+        <div className="bg-[#181818] text-white rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <span className="text-[#E84E2D] text-[10px] font-bold uppercase tracking-[0.22em] block mb-2">
+              {t("ct_social_label", "Social media")}
+            </span>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold">
+              {t("ct_social_title", "Follow the collective")}
+            </h2>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href={t("footer_fb_url", "https://www.facebook.com/share/12G6Xq5jZ15/")}
+              target="_blank"
+              rel="noreferrer"
+              className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold uppercase tracking-widest"
+            >
+              Facebook
+            </a>
+            <a
+              href={t("footer_ig_url", "https://instagram.com")}
+              target="_blank"
+              rel="noreferrer"
+              className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold uppercase tracking-widest"
+            >
+              Instagram
+            </a>
+            <a
+              href={t("footer_wa_url", `https://wa.me/${t("whatsapp_phone", "94771234567")}`)}
+              target="_blank"
+              rel="noreferrer"
+              className="px-5 py-3 rounded-full bg-[#25d366] hover:bg-[#20bd5a] text-xs font-bold uppercase tracking-widest"
+            >
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section id="suggestions" className="max-w-7xl mx-auto px-6 pb-24">
         <div className="bg-white rounded-3xl border border-gray-200/80 shadow-sm p-8 sm:p-12 max-w-3xl">
           <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] block mb-2">

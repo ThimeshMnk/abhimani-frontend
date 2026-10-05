@@ -36,34 +36,28 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const [previewData, setPreviewData] = useState<SettingsMap | null>(null);
 
   useEffect(() => {
-    let isMounted = true;
+    let active = true;
+    const controller = new AbortController();
 
-    // Helper to fetch settings asynchronously without triggering synchronous setState linter warnings
     const loadSettings = () => {
-      fetch(`${API_BASE}/api/settings?t=${Date.now()}`, {
+      fetch(`${API_BASE}/api/settings`, {
         cache: "no-store",
-        headers: {
-          "Cache-Control": "no-cache",
-        },
+        headers: { "Cache-Control": "no-cache" },
+        signal: controller.signal,
       })
-        .then((res) => {
-          if (!res.ok) throw new Error("Settings fetch failed");
-          return res.json();
-        })
-        .then((json: SettingsMap) => {
-          if (isMounted) {
+        .then((res) => (res.ok ? res.json() : null))
+        .then((json: SettingsMap | null) => {
+          if (active && json && typeof json === "object") {
             setInitialData(json);
           }
         })
-        .catch((err) => {
-          console.error("API Settings Fetch Error:", err);
+        .catch(() => {
+          // The public pages keep their built-in copy when the CMS is offline.
         });
     };
 
-    // 1. Initial settings fetch
     loadSettings();
 
-    // 2. Listen for Livewire postMessage events (preview & publish reload)
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === "TET_LIVE_PREVIEW") {
         setPreviewData((prev) => ({
@@ -79,7 +73,8 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 
     window.addEventListener("message", handleMessage);
     return () => {
-      isMounted = false;
+      active = false;
+      controller.abort();
       window.removeEventListener("message", handleMessage);
     };
   }, []);

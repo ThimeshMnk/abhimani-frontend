@@ -145,7 +145,7 @@ startxref
 }
 
 export default function ResourcesPage() {
-  const { locale } = useLanguage();
+  const { locale, t } = useLanguage();
   const [publicationsList, setPublicationsList] = useState<PublicationItem[]>(defaultPublications);
   const [selectedCat, setSelectedCat] = useState<string>("All");
   const [downloadingId, setDownloadingId] = useState<number | null>(null);
@@ -315,13 +315,16 @@ export default function ResourcesPage() {
       <section className="py-16 md:py-24 px-6 bg-white border-b border-gray-200/70">
         <div className="max-w-7xl mx-auto text-center max-w-3xl">
           <span className="text-[#E84E2D] font-bold text-xs uppercase tracking-[0.25em] px-4 py-1.5 bg-orange-100/80 rounded-full inline-block mb-4">
-            AWC Knowledge Hub • Open Access
+            {t("res_hero_label", "Library • Open access")}
           </span>
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#141414] mb-4">
-            Toolkits &amp; <span className="text-[#58214D] italic font-normal">Publications</span>
+            {t("res_hero_title", "Library")}
           </h1>
           <p className="text-gray-600 text-sm md:text-base max-w-xl mx-auto mb-8 leading-relaxed">
-            Knowledge is defense. Access our free trilingual constitutional rights guides, empirical research briefs, and harm reduction field manuals.
+            {t(
+              "res_hero_desc",
+              "Reports, publications, research, toolkits, guidelines, advocacy materials, and other resources to download.",
+            )}
           </p>
 
           {/* Category Filter Pills */}
